@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PM OS — Interactive Demo</title>
+  <style>
+    :root {
+      --bg: #0a0a0b;
+      --raised: #121214;
+      --border: #27272a;
+      --text: #fafafa;
+      --muted: #a1a1aa;
+      --accent: #3b82f6;
+      --gain: #22c55e;
+      --violet: #a78bfa;
+      --amber: #f59e0b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.45;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--border);
+      background: rgba(18, 18, 20, 0.92);
+      backdrop-filter: blur(8px);
+    }
+    .header-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .brand { font-weight: 600; letter-spacing: -0.02em; }
+    nav { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      padding: 0.4rem 0.65rem;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+    }
+    nav a:hover { color: var(--text); background: #27272a; }
+    nav a.active { color: var(--text); background: #3f3f46; }
+    main { max-width: 1120px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+    h1 { font-size: 1.75rem; font-weight: 600; margin: 0 0 0.25rem; }
+    .sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .grid3 { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .card {
+      background: var(--raised);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+    }
+    .card h3 { margin: 0; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+    .big { font-size: 2rem; font-weight: 600; margin: 0.5rem 0 0; }
+    .gain { color: var(--gain); }
+    .muted { color: var(--muted); font-size: 0.875rem; }
+    .pill {
+      display: inline-block;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+    }
+    .pill-t { background: rgba(139, 92, 246, 0.15); color: #c4b5fd; border-color: rgba(139, 92, 246, 0.35); }
+    .pill-c { background: rgba(34, 197, 94, 0.12); color: #86efac; border-color: rgba(34, 197, 94, 0.3); }
+    .pill-x { background: rgba(245, 158, 11, 0.12); color: #fcd34d; border-color: rgba(245, 158, 11, 0.35); }
+    input[type="search"], input[type="number"], select, button {
+      font: inherit;
+      color: var(--text);
+      background: var(--raised);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 0.5rem 0.65rem;
+    }
+    button {
+      cursor: pointer;
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      font-weight: 500;
+    }
+    button.secondary { background: transparent; border-color: var(--border); color: var(--muted); }
+    button.secondary:hover { color: var(--text); border-color: #52525b; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.8125rem; }
+    th, td { text-align: left; padding: 0.6rem 0.5rem; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    tr:hover td { background: rgba(39, 39, 42, 0.35); }
+    .scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 0.75rem; }
+    .row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-bottom: 1rem; }
+    label.chk { display: flex; align-items: center; gap: 0.4rem; color: var(--muted); font-size: 0.875rem; }
+    .tip { border: 1px solid var(--border); border-radius: 0.75rem; padding: 1rem; margin-bottom: 0.75rem; background: var(--raised); }
+    .tip a { color: var(--accent); }
+    footer.note {
+      margin-top: 2rem;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .donut {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: conic-gradient(var(--accent) 0 92%, #27272a 92% 100%);
+      mask: radial-gradient(farthest-side, transparent 58%, #000 59%);
+      -webkit-mask: radial-gradient(farthest-side, transparent 58%, #000 59%);
+      margin: 0.5rem 0;
+    }
+    .gauge {
+      width: 56px; height: 56px; border-radius: 50%;
+      border: 6px solid #27272a;
+      border-top-color: var(--gain);
+      transform: rotate(-45deg);
+      margin: 0.25rem 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <span class="brand">PM OS — Interactive demo</span>
+      <nav id="nav"></nav>
+    </div>
+  </header>
+  <main id="main"></main>
+
+  <script>
+    const CPP = { ur: 2.05, mr: 1.85, c1: 1.7, cash: 1.0 };
+
+    const CARDS = [
+      { id: "csp", name: "Chase Sapphire Preferred", issuer: "Chase", cur: "transferable", prog: "ur",
+        fee: 95, perk: 50, bal: 1240, lim: 17000,
+        rates: { grocery: 1, dining: 3, everythingElse: 1 } },
+      { id: "amex", name: "Amex Gold", issuer: "Amex", cur: "transferable", prog: "mr",
+        fee: 325, perk: 280, bal: 890, lim: 0,
+        rates: { grocery: 4, dining: 4, flights: 3, everythingElse: 1 }, cap: true },
+      { id: "apple", name: "Apple Card", issuer: "Goldman Sachs", cur: "cashback", prog: "cash",
+        fee: 0, perk: 0, bal: -124, lim: 15000,
+        rates: { onlineRetail: 2, everythingElse: 1 } },
+      { id: "vx", name: "Capital One Venture X", issuer: "Capital One", cur: "transferable", prog: "c1",
+        fee: 395, perk: 410, bal: 450, lim: 30000,
+        rates: { hotels: 10, flights: 5, allTravel: 2, everythingElse: 2 } },
+    ];
+
+    const CATS = [
+      { id: "grocery", label: "Grocery" },
+      { id: "dining", label: "Dining" },
+      { id: "everythingElse", label: "Everything else" },
+      { id: "flights", label: "Flights" },
+      { id: "hotels", label: "Hotels" },
+    ];
+
+    const TIPS = [
+      { t: "What are points worth? (RRVs)", s: "Baseline cpp before you compare cards.", u: "https://frequentmiler.com/reasonable-redemption-values-rrvs/", src: "Frequent Miler" },
+      { t: "Chase Trifecta primer", s: "Stack Freedom + Sapphire for uplift.", u: "https://www.asksebby.com/", src: "AskSebby" },
+      { t: "Current SUBs", s: "Offer tracking & data points.", u: "https://www.doctorofcredit.com/credit-cards/best-current-credit-card-sign-bonuses/", src: "Doctor of Credit" },
+      { t: "Travel Points 101", s: "Friendly on-ramp for families.", u: "https://katiestraveltricks.com/", src: "Katie's Travel Tricks" },
+      { t: "Spend optimizer reference UX", s: "Inspiration for matrices & allocation.", u: "https://cardtool.app/spend-optimizer", src: "CardTool" },
+      { t: "r/churning", s: "Mechanics, offers, DPs.", u: "https://www.reddit.com/r/churning/", src: "Reddit" },
+    ];
+
+    let state = {
+      page: "dashboard",
+      walletQ: "",
+      includeSub: true,
+      spend: { grocery: 800, dining: 600, everythingElse: 400, flights: 200, hotels: 150 },
+      ledger: { you: 2500, partner: 800 },
+      txs: [],
+    };
+
+    function rateFor(card, catId) {
+      return card.rates[catId] ?? card.rates.everythingElse ?? 0;
+    }
+
+    function centsPerDollar(card, catId, includeSub) {
+      const mult = rateFor(card, catId);
+      const cpp = CPP[card.prog] ?? 1;
+      let c = mult * cpp;
+      if (includeSub && card.id === "csp")
+        c += (75000 * CPP.ur) / 15000;
+      return c;
+    }
+
+    function navHtml() {
+      const pages = [
+        ["dashboard", "Dashboard"],
+        ["wallet", "Cards"],
+        ["compare", "Compare"],
+        ["optimizer", "Optimizer"],
+        ["tips", "Tips"],
+        ["ledger", "Ledger"],
+      ];
+      return pages.map(([id, lab]) =>
+        `<a href="#${id}" class="${state.page === id ? "active" : ""}">${lab}</a>`
+      ).join("");
+    }
+
+    function render() {
+      const p = state.page;
+      document.getElementById("nav").innerHTML = navHtml();
+      const m = document.getElementById("main");
+      if (p === "dashboard") m.innerHTML = pageDashboard();
+      else if (p === "wallet") m.innerHTML = pageWallet();
+      else if (p === "compare") m.innerHTML = pageCompare();
+      else if (p === "optimizer") m.innerHTML = pageOptimizer();
+      else if (p === "tips") m.innerHTML = pageTips();
+      else if (p === "ledger") m.innerHTML = pageLedger();
+      bind();
+    }
+
+    function pageDashboard() {
+      const n = CARDS.length;
+      const fees = CARDS.reduce((a, c) => a + c.fee, 0);
+      const perks = CARDS.reduce((a, c) => a + c.perk, 0);
+      const lim = CARDS.filter(c => c.lim > 0).reduce((a, c) => a + c.lim, 0);
+      const bal = CARDS.filter(c => c.lim > 0).reduce((a, c) => a + Math.max(0, c.bal), 0);
+      const pts = 42000 + 18500 + 12000;
+      const ptUsd = (42000 * CPP.ur + 18500 * CPP.mr + 12000 * CPP.c1) / 100;
+      const totalSpend = CATS.reduce((a, c) => a + (state.spend[c.id] || 0), 0) * 12 / 12;
+      let earn = 0;
+      CATS.forEach(cat => {
+        let best = 0;
+        CARDS.forEach(card => {
+          const v = centsPerDollar(card, cat.id, state.includeSub) / 100 * (state.spend[cat.id] || 0);
+          const c = centsPerDollar(card, cat.id, state.includeSub);
+          const alt = c / 100 * (state.spend[cat.id] || 0);
+          if (alt > best) best = alt;
+        });
+        earn += best;
+      });
+      const rr = totalSpend > 0 ? (earn / totalSpend) * 100 : 0;
+      return `
+        <h1>Dashboard</h1>
+        <p class="sub">Drag this file into a browser tab — no install. Data is sample only.</p>
+        <div class="grid3">
+          <div class="card">
+            <h3>Cards in wallet</h3>
+            <p class="big">${n}</p>
+            <p class="muted">Annual fees: <strong style="color:var(--text)">$${fees.toLocaleString()}</strong></p>
+            <p class="muted">Perks value: <strong class="gain">$${perks.toLocaleString()}</strong></p>
+            <p class="muted">Net fees: <strong style="color:var(--text)">$${(fees - perks).toLocaleString()}</strong></p>
+          </div>
+          <div class="card">
+            <h3>Points & miles</h3>
+            <p class="big">${(pts / 1000).toFixed(1)}K</p>
+            <p class="gain" style="font-size:1.1rem">≈ $${ptUsd.toFixed(0)}</p>
+            <div class="donut" title="Bank-heavy demo"></div>
+            <p class="muted">Modeled cpp from embedded table</p>
+          </div>
+          <div class="card">
+            <h3>Total credit</h3>
+            <p class="big">$${lim.toLocaleString()}</p>
+            <p class="muted">Balance: <strong style="color:var(--text)">$${bal.toLocaleString()}</strong></p>
+            <p class="muted">Available: <strong class="gain">$${(lim - bal).toLocaleString()}</strong></p>
+            <div class="gauge" title="Utilization hint"></div>
+            <p class="muted">Utilization (demo): ${((bal / lim) * 100).toFixed(1)}%</p>
+          </div>
+        </div>
+        <div class="card" style="margin-top:1rem">
+          <h3>Total earnings (from Optimizer spend)</h3>
+          <p class="muted">Uses same greedy logic as Optimizer tab with current spend + SUB toggle (${state.includeSub ? "on" : "off"}).</p>
+          <p><span class="muted">Modeled return:</span> <strong class="gain">$${earn.toFixed(2)}</strong> on <strong>$${totalSpend.toFixed(0)}</strong> spend → <strong class="gain">${rr.toFixed(2)}%</strong></p>
+          <p><a href="#optimizer" style="color:var(--accent)">Edit spend in Optimizer →</a></p>
+        </div>
+        <footer class="note">
+          <strong>Not real accounts.</strong> Pool Credits / tokenization: see Ledger tab (simulation only). This file does not connect to banks or blockchains.
+        </footer>`;
+    }
+
+    function curPill(c) {
+      if (c.cur === "transferable") return `<span class="pill pill-t">Transferable</span>`;
+      if (c.cur === "cashback") return `<span class="pill pill-c">Cash back</span>`;
+      return `<span class="pill pill-x">Other</span>`;
+    }
+
+    function pageWallet() {
+      const q = state.walletQ.trim().toLowerCase();
+      const rows = CARDS.filter(c => !q || (c.name + c.issuer).toLowerCase().includes(q));
+      return `
+        <h1>My wallet</h1>
+        <p class="sub">${CARDS.length} cards · try the search box</p>
+        <div class="row">
+          <input type="search" id="wq" placeholder="Search cards…" value="${state.walletQ.replace(/"/g, "&quot;")}" style="min-width:220px;flex:1" />
+        </div>
+        <div class="scroll">
+          <table><thead><tr>
+            <th>Card</th><th>Issuer</th><th>Currency</th><th>Fee</th><th>Perks</th><th>Net</th><th>Balance</th><th>Limit</th>
+          </tr></thead><tbody>
+          ${rows.map(c => {
+            const net = c.fee - c.perk;
+            return `<tr>
+              <td>${c.name}</td><td>${c.issuer}</td><td>${curPill(c)}</td>
+              <td>$${c.fee}</td><td>$${c.perk}</td>
+              <td class="${net <= 0 ? "gain" : ""}">$${net}</td>
+              <td>$${c.bal}</td><td>${c.lim ? "$" + c.lim.toLocaleString() : "—"}</td>
+            </tr>`;
+          }).join("")}
+          </tbody></table>
+        </div>`;
+    }
+
+    function pageCompare() {
+      let head = `<tr><th>Card</th>${CATS.map(c => `<th>${c.label}</th>`).join("")}</tr>`;
+      let body = CARDS.map(card => {
+        let cells = CATS.map(cat => {
+          const mult = rateFor(card, cat.id);
+          const cpp = CPP[card.prog];
+          let cents = mult * cpp;
+          if (state.includeSub && card.id === "csp")
+            cents += (75000 * CPP.ur) / 15000;
+          const dagger = card.cap && (cat.id === "grocery" || cat.id === "dining") ? "†" : "";
+          return `<td>${cents.toFixed(2)}¢${dagger}</td>`;
+        }).join("");
+        return `<tr><td><strong>${card.name}</strong></td>${cells}</tr>`;
+      }).join("");
+      return `
+        <h1>Compare cards</h1>
+        <p class="sub">¢ per $1 · toggle SUB uplift (demo formula on CSP only)</p>
+        <div class="row">
+          <label class="chk"><input type="checkbox" id="sub" ${state.includeSub ? "checked" : ""}/> Include SUB (amortized)</label>
+        </div>
+        <div class="scroll">
+          <table><thead>${head}</thead><tbody>${body}</tbody></table>
+        </div>
+        <p class="muted" style="font-size:0.8rem">† Cap/condition (decorative for Amex Gold grocery/dining in this demo).</p>`;
+    }
+
+    function pageOptimizer() {
+      const inputs = CATS.map(cat =>
+        `<label style="display:block;margin-bottom:0.75rem"><span class="muted">${cat.label}</span><br/>
+          <input type="number" min="0" step="50" data-spend="${cat.id}" value="${state.spend[cat.id] || 0}" style="width:100%;max-width:280px"/></label>`
+      ).join("");
+      let alloc = "";
+      let totalSpend = 0;
+      let totalVal = 0;
+      CATS.forEach(cat => {
+        const s = state.spend[cat.id] || 0;
+        totalSpend += s;
+        let bestCard = null;
+        let bestC = 0;
+        CARDS.forEach(card => {
+          const c = centsPerDollar(card, cat.id, state.includeSub);
+          if (c > bestC) { bestC = c; bestCard = card; }
+        });
+        const v = s * (bestC / 100);
+        totalVal += v;
+        alloc += `<tr><td>${cat.label}</td><td>$${s}</td><td>${bestCard ? bestCard.name : "—"}</td><td>${bestC.toFixed(2)}¢</td><td class="gain">$${v.toFixed(2)}</td></tr>`;
+      });
+      const rr = totalSpend > 0 ? (totalVal / totalSpend) * 100 : 0;
+      return `
+        <h1>Spend optimizer</h1>
+        <p class="sub">Greedy best card per category (interactive)</p>
+        <div class="row">
+          <label class="chk"><input type="checkbox" id="sub2" ${state.includeSub ? "checked" : ""}/> Include SUB</label>
+          <button type="button" id="recalc" class="secondary">Recalculate</button>
+        </div>
+        <div class="grid3" style="margin-bottom:1rem">
+          <div class="card" style="grid-column:1/-1">
+            <h3>Category spend (monthly demo)</h3>
+            ${inputs}
+          </div>
+        </div>
+        <div class="card">
+          <h3>Allocation</h3>
+          <div class="scroll">
+            <table><thead><tr><th>Category</th><th>Spend</th><th>Use card</th><th>¢/$</th><th>Value</th></tr></thead>
+            <tbody>${alloc}</tbody></table>
+          </div>
+          <p style="margin-top:1rem"><span class="muted">Total spend:</span> <strong>$${totalSpend}</strong>
+            · <span class="muted">Modeled value:</span> <strong class="gain">$${totalVal.toFixed(2)}</strong>
+            · <span class="muted">Return:</span> <strong class="gain">${rr.toFixed(2)}%</strong></p>
+        </div>`;
+    }
+
+    function pageTips() {
+      return `
+        <h1>Tips & hacks</h1>
+        <p class="sub">Outbound links only — same spirit as the full app</p>
+        ${TIPS.map(t => `<div class="tip"><div class="muted" style="font-size:0.7rem;text-transform:uppercase">${t.src}</div>
+          <strong>${t.t}</strong><p class="muted" style="margin:0.35rem 0">${t.s}</p>
+          <a href="${t.u}" target="_blank" rel="noopener">Open →</a></div>`).join("")}`;
+    }
+
+    function pageLedger() {
+      const opts = Object.keys(state.ledger).map(k => `<option value="${k}">${k}</option>`).join("");
+      const hist = state.txs.length ? state.txs.map(t =>
+        `<li class="muted" style="margin-bottom:0.35rem">${t.from} → ${t.to}: <strong class="gain">$${t.amt}</strong> (${t.when})</li>`
+      ).join("") : "<li class=\"muted\">No transfers yet.</li>";
+      return `
+        <h1>Pool Credits (simulation)</h1>
+        <p class="sub">Not bank points. Stored in this tab’s memory until you refresh (full app uses localStorage).</p>
+        <div class="grid3">
+          ${Object.entries(state.ledger).map(([k, v]) =>
+            `<div class="card"><h3>${k}</h3><p class="big gain">$${v.toLocaleString()}</p><p class="muted">Pool Credits</p></div>`
+          ).join("")}
+        </div>
+        <div class="card" style="margin-top:1rem">
+          <h3>Transfer</h3>
+          <div class="row" style="align-items:flex-end">
+            <label>From<br/><select id="from">${opts}</select></label>
+            <label>To<br/><select id="to">${opts}</select></label>
+            <label>Amount<br/><input type="number" id="amt" min="1" value="100" style="width:100px"/></label>
+            <button type="button" id="send">Send</button>
+          </div>
+          <p id="lerr" style="color:#f87171;font-size:0.875rem;min-height:1.2em"></p>
+          <h3 style="margin-top:1rem">History</h3>
+          <ul style="padding-left:1.1rem">${hist}</ul>
+        </div>`;
+    }
+
+    function bind() {
+      document.querySelectorAll("#nav a").forEach(a => {
+        a.onclick = (e) => {
+          e.preventDefault();
+          const id = a.getAttribute("href").slice(1);
+          state.page = id;
+          location.hash = id;
+          render();
+        };
+      });
+      const wq = document.getElementById("wq");
+      if (wq) {
+        wq.oninput = () => { state.walletQ = wq.value; render(); };
+      }
+      const sub = document.getElementById("sub");
+      if (sub) sub.onchange = () => { state.includeSub = sub.checked; render(); };
+      const sub2 = document.getElementById("sub2");
+      if (sub2) sub2.onchange = () => { state.includeSub = sub2.checked; render(); };
+      document.querySelectorAll("[data-spend]").forEach(inp => {
+        inp.onchange = () => {
+          const id = inp.getAttribute("data-spend");
+          state.spend[id] = Number(inp.value) || 0;
+        };
+      });
+      const recalc = document.getElementById("recalc");
+      if (recalc) recalc.onclick = () => render();
+      const send = document.getElementById("send");
+      if (send) {
+        send.onclick = () => {
+          const from = document.getElementById("from").value;
+          const to = document.getElementById("to").value;
+          const amt = Number(document.getElementById("amt").value);
+          const err = document.getElementById("lerr");
+          err.textContent = "";
+          if (from === to) { err.textContent = "Choose different from/to."; return; }
+          if (!(amt > 0)) { err.textContent = "Enter a positive amount."; return; }
+          if (state.ledger[from] < amt) { err.textContent = "Insufficient balance."; return; }
+          state.ledger[from] -= amt;
+          state.ledger[to] += amt;
+          state.txs.unshift({
+            from, to, amt,
+            when: new Date().toLocaleTimeString(),
+          });
+          render();
+        };
+      }
+    }
+
+    function route() {
+      const h = (location.hash || "#/dashboard").slice(1) || "dashboard";
+      state.page = h;
+      render();
+    }
+
+    window.addEventListener("hashchange", route);
+    route();
+  </script>
+</body>
+</html>

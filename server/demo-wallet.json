@@ -1,0 +1,45 @@
+[
+  {
+    "id": "csp",
+    "name": "Chase Sapphire Preferred",
+    "issuer": "Chase",
+    "last4": "4242",
+    "cardType": "personal",
+    "limitType": "credit",
+    "rewardCurrency": "transferable",
+    "programId": "ur",
+    "annualFee": 95,
+    "perkValue": 50,
+    "balance": 0,
+    "limit": 17000,
+    "bonusesCount": 0,
+    "creditsCount": 0,
+    "loyaltyBalance": 42000,
+    "earnByCategory": {
+      "dining": { "pointsPerDollar": 3, "capped": false },
+      "everythingElse": { "pointsPerDollar": 1, "capped": false }
+    }
+  },
+  {
+    "id": "amex-gold",
+    "name": "Amex Gold",
+    "issuer": "Amex",
+    "last4": "1001",
+    "cardType": "personal",
+    "limitType": "charge",
+    "rewardCurrency": "transferable",
+    "programId": "mr",
+    "annualFee": 325,
+    "perkValue": 280,
+    "balance": 0,
+    "limit": 0,
+    "bonusesCount": 0,
+    "creditsCount": 0,
+    "loyaltyBalance": 18500,
+    "earnByCategory": {
+      "grocery": { "pointsPerDollar": 4, "capped": true },
+      "dining": { "pointsPerDollar": 4, "capped": true },
+      "everythingElse": { "pointsPerDollar": 1, "capped": false }
+    }
+  }
+]

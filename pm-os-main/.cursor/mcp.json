@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "lenny-podcast": {
+      "url": "https://lenny-mcp.onrender.com/mcp"
+    }
+  }
+}

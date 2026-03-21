@@ -1,0 +1,11 @@
+# Internal files — not for distribution
+_internal/
+
+# Hook state (local session data)
+.cursor/hooks/state/
+
+# Obsidian workspace files (local only)
+.obsidian/
+
+# macOS
+.DS_Store

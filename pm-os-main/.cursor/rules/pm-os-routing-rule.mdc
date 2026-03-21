@@ -1,0 +1,39 @@
+---
+description: PM OS — routing rule, dedicated injection, survives compaction
+globs:
+alwaysApply: true
+---
+
+# PM OS: Routing Rule (Hard Constraint)
+
+<!-- CRITICAL_ROUTING_CONSTRAINT -->
+
+For **any message** about strategy, decisions, opportunities, research, stakeholders, or meetings:
+
+**Your first line of substantive output MUST be the routing declaration:**
+
+```
+ROUTING → [workflow name] | Reading: plugins/pm-workflows/agents/pm-workflows.md | Executing: plugins/pm-workflows/commands/workflows/[file].md
+```
+
+This declaration appears **after** the pre-flight block and **before** any advice, framework, or question.
+
+After the declaration: ask **exactly one clarifying question**. No framework analysis. No strategic observations. Wait for the user to answer before proceeding.
+
+## FAIL
+```
+[pre-flight block]
+This is a classic prioritisation problem. The reversibility framework suggests...
+ROUTING → Make Great Decisions | ...
+What's your timeline?
+```
+
+## PASS
+```
+[pre-flight block]
+ROUTING → Make Great Decisions | Reading: plugins/pm-workflows/agents/pm-workflows.md | Executing: plugins/pm-workflows/commands/workflows/make-great-decisions.md
+
+Before I pull the right framework — which of these options, if you got it wrong, would be the hardest to reverse in six months?
+```
+
+**`/dev` mode does not exempt PM requests from routing.** No mode switch does.

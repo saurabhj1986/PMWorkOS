@@ -1,0 +1,59 @@
+{
+  "version": "1",
+  "schema": {
+    "skill_fields": {
+      "src": "Subfolder in the cloned repo containing the skill files. Empty string means repo root.",
+      "dest": "Folder name to create under .cursor/skills/",
+      "filename": "The main skill file (always becomes SKILL.md in the destination)",
+      "extra_files": "Additional files to copy from src into the dest folder alongside SKILL.md"
+    }
+  },
+  "sources": [
+    {
+      "id": "rjs-shaping-skills",
+      "repo": "https://github.com/rjs/shaping-skills",
+      "author": "rjs",
+      "description": "Shaping and breadboarding skills based on the Shape Up methodology",
+      "skills": [
+        {
+          "src": "shaping",
+          "dest": "shaping",
+          "filename": "SKILL.md",
+          "extra_files": []
+        },
+        {
+          "src": "breadboarding",
+          "dest": "breadboarding",
+          "filename": "skill.md",
+          "extra_files": []
+        },
+        {
+          "src": "breadboard-reflection",
+          "dest": "breadboard-reflection",
+          "filename": "skill.md",
+          "extra_files": []
+        }
+      ],
+      "last_synced": "2026-03-02",
+      "synced_commit": "9eeda4e"
+    },
+    {
+      "id": "zarazhangrui-frontend-slides",
+      "repo": "https://github.com/zarazhangrui/frontend-slides",
+      "author": "zarazhangrui",
+      "description": "Create stunning animation-rich HTML presentations from scratch or by converting PowerPoint files",
+      "skills": [
+        {
+          "src": "",
+          "dest": "frontend-slides",
+          "filename": "SKILL.md",
+          "extra_files": [
+            "STYLE_PRESETS.md"
+          ]
+        }
+      ],
+      "last_synced": "2026-03-02",
+      "synced_commit": "c872e7f"
+    }
+  ]
+}

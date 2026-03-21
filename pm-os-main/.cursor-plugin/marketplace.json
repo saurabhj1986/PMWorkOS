@@ -1,0 +1,22 @@
+{
+  "name": "pm-os",
+  "owner": {
+    "name": "prodmgmt.world"
+  },
+  "metadata": {
+    "description": "Product Manager's AI Operating System — 7 sequenced PM workflows, 194 skills, 300+ frameworks organized into focused workflow-driven commands",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "core",
+      "source": "plugins/core",
+      "description": "System commands: /start, /help, /status"
+    },
+    {
+      "name": "pm-workflows",
+      "source": "plugins/pm-workflows",
+      "description": "7 sequenced PM workflows covering strategy, opportunity mapping, assumption mapping, research, decisions, stakeholder management, and meeting mastery"
+    }
+  ]
+}

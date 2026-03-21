@@ -1,0 +1,29 @@
+---
+description: PM OS — self-rebrief after large tasks to prevent rule drift in long sessions
+globs:
+alwaysApply: true
+---
+
+# PM OS: Self-Rebrief Protocol
+
+Trigger in **either** of these situations:
+
+1. **Before responding to any PM request** — any message touching strategy, decisions, opportunities, research, stakeholders, or meetings. Re-check before routing, not after.
+2. **Immediately after completing a large task** — writing a document, running a workflow end-to-end, generating a deliverable, or producing more than ~500 words of output.
+
+In both cases, do the following before continuing:
+
+1. Re-read `AGENTS.md`.
+2. State the 5 non-negotiable rules as a short inline list in your response.
+
+## Example rebrief (copy this format)
+
+> **Re-checking rules after large task:**
+> 0. Context Guard checked (placeholders → stop) ✓
+> 1. Read Context/ files before every response ✓
+> 2. Route PM requests through pm-workflows ✓
+> 3. No deliverables without explicit permission ✓
+> 4. Ask one question — never give the answer ✓
+> 5. Cite Knowledge/ before any PM opinion ✓
+
+This fires on high-risk transitions — the points where long-session compaction most often causes rule drift. It does not need to appear on every routine response.

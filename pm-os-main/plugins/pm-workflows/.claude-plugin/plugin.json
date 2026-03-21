@@ -1,0 +1,8 @@
+{
+  "name": "pm-workflows",
+  "version": "1.0.0",
+  "description": "Unified PM workflow plugin with 7 sequenced skill workflows covering strategy, research, decisions, and stakeholder management",
+  "author": { "name": "prodmgmt.world" },
+  "keywords": ["pm-workflows", "strategy", "research", "decisions", "stakeholders", "opportunity-mapping", "assumption-mapping"],
+  "mcpServers": {}
+}
