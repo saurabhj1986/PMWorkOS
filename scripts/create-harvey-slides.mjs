@@ -180,14 +180,14 @@ function slide2(slideId, requests) {
 
   addBox(requests, `${slideId}_lhead`, 60000, H * 0.13, halfW - 120000, pt(44).magnitude);
   styleBox(requests, `${slideId}_lhead`, NAVY);
-  addText(requests, `${slideId}_lhead`, 'What I've Delivered',
+  addText(requests, `${slideId}_lhead`, "What I've Delivered",
     { size: 26, bold: true, color: WHITE });
 
   const exps = [
-    ['Compliance data lake — 0 → 1',
-      'Built ESG Data Hub for Fortune 500 — 14 governed metrics, full audit lineage'],
+    ['Compliance data lake -- 0 → 1',
+      'Built ESG Data Hub for Fortune 500 -- 14 governed metrics, full audit lineage'],
     ['Policy orchestration across systems',
-      'Led SOX-compliant data lineage automation at Intuit — 30+ automated pipelines'],
+      'Led SOX-compliant data lineage automation at Intuit -- 30+ automated pipelines'],
     ['Audit readiness (SOC 2, ISO 27001)',
       '~500 UAT test cases, <4% defect rate, authored governed metric PRDs'],
     ['Data accuracy & trust at scale',
@@ -228,13 +228,13 @@ function slide2(slideId, requests) {
 
   const features = [
     ['🗄️  Compliance Data Lake',
-      'Centralized audit logs, retention policies, SOC 2 / ISO 27001 evidence — always audit-ready'],
+      'Centralized audit logs, retention policies, SOC 2 / ISO 27001 evidence -- always audit-ready'],
     ['🛡️  Policy Orchestration',
-      'Automated data handling — retention, encryption, access controls, regional residency per customer'],
+      'Automated data handling -- retention, encryption, access controls, regional residency per customer'],
     ['📊  Trust Dashboards',
       'Real-time compliance posture, incident SLAs, audit readiness scores for enterprise clients'],
     ['🚀  Scale for Growth',
-      'Infrastructure for 1K → 10K+ customers — trust as a competitive moat, not a bottleneck'],
+      'Infrastructure for 1K → 10K+ customers -- trust as a competitive moat, not a bottleneck'],
   ];
 
   features.forEach(([name, desc], i) => {
@@ -267,7 +267,7 @@ function slide3(slideId, requests) {
   addText(requests, `${slideId}_head`, 'Numbers That Speak', { size: 30, bold: true, color: WHITE, align: 'CENTER' });
 
   const cards = [
-    { icon: '💰', stat: '$80M',  label: 'Unallocated Trades Resolved',  sub: 'Root-cause to fix at Allianz — $337B AUM' },
+    { icon: '💰', stat: '$80M',  label: 'Unallocated Trades Resolved',  sub: 'Root-cause to fix at Allianz -- $337B AUM' },
     { icon: '📋', stat: '~500',  label: 'UAT Test Cases Authored',      sub: '<4% defect rate, governed metric PRDs' },
     { icon: '📐', stat: '14',    label: 'Governed ESG Metrics',         sub: '0 → 1 data lake for Fortune 500' },
     { icon: '⚙️',  stat: '30+',  label: 'Automated Pipelines',          sub: 'SOX-compliant lineage at Intuit' },
@@ -400,13 +400,13 @@ function slide5(slideId, requests) {
   addBox(requests, `${slideId}_quote`, W * 0.1, H * 0.2, W * 0.8, pt(80).magnitude);
   styleBox(requests, `${slideId}_quote`, PANEL);
   addText(requests, `${slideId}_quote`,
-    '"Enterprise clients don\'t just buy AI — they buy trust in the AI.\nI\'ve spent 13 years building the infrastructure that makes that trust\nprovable, auditable, and scalable."',
+    '"Enterprise clients don\'t just buy AI -- they buy trust in the AI.\nI\'ve spent 13 years building the infrastructure that makes that trust\nprovable, auditable, and scalable."',
     { size: 16, color: WHITE, align: 'CENTER' });
 
   addBox(requests, `${slideId}_body`, W * 0.15, H * 0.57, W * 0.7, pt(52).magnitude);
   styleBox(requests, `${slideId}_body`, PANEL);
   addText(requests, `${slideId}_body`,
-    'I\'ve built compliance data lakes from scratch, automated SOX-grade lineage at Intuit, and resolved $80M in data integrity failures at scale. I\'m ready to bring that same rigor — and ownership — to Harvey\'s data infrastructure.',
+    'I\'ve built compliance data lakes from scratch, automated SOX-grade lineage at Intuit, and resolved $80M in data integrity failures at scale. I\'m ready to bring that same rigor -- and ownership -- to Harvey\'s data infrastructure.',
     { size: 11, color: MUTED, align: 'CENTER' });
 
   addBox(requests, `${slideId}_contact`, W * 0.25, H * 0.82, W * 0.5, pt(22).magnitude);
@@ -468,7 +468,7 @@ async function main() {
 
   // 1. Create blank presentation
   const pres = await slides.presentations.create({
-    requestBody: { title: 'Saurabh Jhaveri — Harvey AI Pitch' },
+    requestBody: { title: 'Saurabh Jhaveri -- Harvey AI Pitch' },
   });
   const presId = pres.data.presentationId;
   console.log(`📑  Created presentation: ${presId}`);
