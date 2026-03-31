@@ -43,6 +43,12 @@ export function NavLayout() {
               <NavLink to="/optimizer" className={navClass}>
                 Planning
               </NavLink>
+              <NavLink to="/insights" className={navClass}>
+                Insights
+              </NavLink>
+              <NavLink to="/trust" className={navClass}>
+                Trust
+              </NavLink>
               <NavLink to="/tips" className={navClass}>
                 Tips
               </NavLink>
@@ -65,6 +71,12 @@ export function NavLayout() {
           </NavLink>
           <NavLink to="/optimizer" className={navClass}>
             Optimizer
+          </NavLink>
+          <NavLink to="/insights" className={navClass}>
+            Insights
+          </NavLink>
+          <NavLink to="/trust" className={navClass}>
+            Trust
           </NavLink>
           <NavLink to="/tips" className={navClass}>
             Tips
