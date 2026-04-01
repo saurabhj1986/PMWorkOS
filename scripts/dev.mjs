@@ -43,6 +43,7 @@ await ctx.watch();
 const serveResult = await ctx.serve({
   servedir: root,
   port: 5173,
+  host: "0.0.0.0",
 });
 
 const hosts = serveResult.hosts ?? [];
