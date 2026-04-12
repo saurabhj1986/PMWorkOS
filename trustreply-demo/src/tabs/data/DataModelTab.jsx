@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, forwardRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Database,
@@ -9,6 +9,7 @@ import {
   Table2,
 } from "lucide-react";
 import { dataModelTables } from "../../data/dataModel";
+import ErdDiagram from "./ErdDiagram";
 
 const COLOR_MAP = {
   blue: { border: "border-blue-500/30", bg: "bg-blue-500/10", iconBg: "bg-blue-500/20", text: "text-blue-300", dot: "bg-blue-400" },
@@ -22,10 +23,21 @@ const COLOR_MAP = {
 };
 
 /**
- * DataModelTab — visual ERD of the trust intelligence data lake.
- * 8 table cards with columns, sample rows, and FK relationships.
+ * DataModelTab — interactive ERD diagram + expandable table cards.
+ * Click a node in the diagram to scroll to and open its detail card.
  */
 export default function DataModelTab() {
+  const [openId, setOpenId] = useState(null);
+  const cardRefs = useRef({});
+
+  const handleSelectTable = (tableId) => {
+    setOpenId(tableId);
+    const el = cardRefs.current[tableId];
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
   return (
     <div className="space-y-4">
       {/* Header */}
@@ -40,10 +52,13 @@ export default function DataModelTab() {
           </span>
         </div>
         <p className="mt-1 text-xs text-[var(--color-muted-text)]">
-          Snowflake trust intelligence schema · click any table to see columns
-          and sample rows
+          Snowflake trust intelligence schema · drag to explore, click a table
+          for details
         </p>
       </div>
+
+      {/* ERD Diagram */}
+      <ErdDiagram onSelectTable={handleSelectTable} />
 
       {/* Stats strip */}
       <div className="grid grid-cols-4 gap-2">
@@ -53,10 +68,17 @@ export default function DataModelTab() {
         <QuickStat value="~98K" label="rows (projected)" />
       </div>
 
-      {/* Table cards */}
+      {/* Table detail cards */}
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         {dataModelTables.map((table, idx) => (
-          <TableCard key={table.id} table={table} idx={idx} />
+          <TableCard
+            key={table.id}
+            table={table}
+            idx={idx}
+            isOpen={openId === table.id}
+            onToggle={() => setOpenId(openId === table.id ? null : table.id)}
+            ref={(el) => { cardRefs.current[table.id] = el; }}
+          />
         ))}
       </div>
     </div>
@@ -74,12 +96,13 @@ function QuickStat({ value, label }) {
   );
 }
 
-function TableCard({ table, idx }) {
-  const [open, setOpen] = useState(false);
+const TableCard = forwardRef(function TableCard({ table, idx, isOpen, onToggle }, ref) {
+  const open = isOpen;
   const palette = COLOR_MAP[table.color] ?? COLOR_MAP.slate;
 
   return (
     <motion.div
+      ref={ref}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: idx * 0.05, duration: 0.3 }}
@@ -87,7 +110,7 @@ function TableCard({ table, idx }) {
     >
       <button
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={onToggle}
         className="flex w-full items-start gap-3 p-3 text-left transition hover:bg-slate-800/30"
       >
         <div
@@ -220,7 +243,7 @@ function TableCard({ table, idx }) {
       </AnimatePresence>
     </motion.div>
   );
-}
+});
 
 function formatCell(val) {
   if (val === undefined || val === null) return "—";
