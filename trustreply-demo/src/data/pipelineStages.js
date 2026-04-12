@@ -18,9 +18,10 @@ export const pipelineStages = [
   {
     id: "ingest",
     number: 1,
-    title: "Customer Sends Questionnaire",
+    title: "Inbound",
     tagline: "Latham & Watkins · CAIQ v4 · 261 questions",
     icon: "Inbox",
+    headlineStat: { value: "261", label: "questions" },
     what: "Latham & Watkins' security team uploads their CAIQ v4 file. It's tied to a $4.2M enterprise deal currently sitting in security review — every day stalled is revenue at risk.",
     behind:
       "INSERT INTO trust_intelligence.questionnaire_responses (status='pending'). Notify the assigned analyst via Slack + dashboard.",
@@ -38,9 +39,10 @@ export const pipelineStages = [
   {
     id: "parse",
     number: 2,
-    title: "Ingest & Parse",
+    title: "Parse",
     tagline: "261 questions extracted in 1.4s",
     icon: "FileText",
+    headlineStat: { value: "1.4s", label: "to extract" },
     what: "The 261 questions are extracted from the CAIQ Excel file into structured rows. Duplicates against the historical question library are flagged for instant reuse.",
     behind:
       "File parser identifies question columns, normalizes formatting, and runs fuzzy match against the approved_answers index.",
@@ -57,9 +59,10 @@ export const pipelineStages = [
   {
     id: "classify",
     number: 3,
-    title: "Classify & Route",
+    title: "Classify",
     tagline: "Q-47 → Data Protection / Encryption",
     icon: "Tags",
+    headlineStat: { value: "247", label: "tagged" },
     what: "Each question is tagged with a security domain so the agent knows which control to look up. Following Q-47 through the rest of the pipeline.",
     behind:
       "LLM classifier emits {category, sub_topic, intent} per question. Confidence threshold gates routing.",
@@ -80,9 +83,10 @@ export const pipelineStages = [
   {
     id: "map",
     number: 4,
-    title: "Map to CCF",
+    title: "Map",
     tagline: "Matched to CC-05 · 0.98 confidence",
     icon: "GitBranch",
+    headlineStat: { value: "CC-05", label: "control" },
     what: "Q-47's classification is matched against Harvey's 16-family Common Control Framework.",
     behind:
       "JOIN control_inventory ON category → control_family. Returns one or more matching controls ranked by overlap score.",
@@ -98,9 +102,10 @@ export const pipelineStages = [
   {
     id: "retrieve",
     number: 5,
-    title: "Retrieve Evidence",
+    title: "Retrieve",
     tagline: "3 current artifacts · all valid",
     icon: "Database",
+    headlineStat: { value: "3", label: "artifacts" },
     what: "Pull every current, non-expired evidence artifact attached to CC-05.",
     behind:
       "SELECT * FROM evidence_submissions WHERE control_id='CC-05' AND status='current' AND expires_date > CURRENT_DATE",
@@ -117,9 +122,10 @@ export const pipelineStages = [
   {
     id: "draft",
     number: 6,
-    title: "Draft & Score",
+    title: "Draft",
     tagline: "96% confidence · 89% reuse match",
     icon: "Sparkles",
+    headlineStat: { value: "0.96", label: "trust" },
     what: "Compose a customer-facing answer grounded in the 3 evidence artifacts. Score the draft for faithfulness so we don't ship hallucinations.",
     behind:
       "Prompt template wraps {question + evidence + Harvey tone guide} → LLM draft → faithfulness check (every claim must trace back to a cited artifact).",
@@ -146,9 +152,10 @@ export const pipelineStages = [
   {
     id: "review",
     number: 7,
-    title: "Human Review",
+    title: "Review",
     tagline: "Auto-approve queue · 12s decision",
     icon: "UserCheck",
+    headlineStat: { value: "12s", label: "to approve" },
     what: "Routed by confidence band. High-confidence drafts go to a one-click approve queue. Low-confidence drafts go to a senior analyst for judgment.",
     behind:
       "Routing rules: ≥0.95 → auto-approve queue · 0.80–0.95 → standard review · <0.80 → senior analyst escalation.",
@@ -166,9 +173,10 @@ export const pipelineStages = [
   {
     id: "deliver",
     number: 8,
-    title: "Deliver & Compound",
+    title: "Deliver",
     tagline: "Delivered · library +1 · deal unblocked",
     icon: "Send",
+    headlineStat: { value: "248", label: "delivered" },
     what: "Approved bundle goes back to Latham. The new approved answer joins the library so the next customer asking about encryption gets it instantly.",
     behind:
       "UPDATE questionnaire_responses SET answered = answered + 1; INSERT INTO approved_answers; notify analyst dashboard. Loops back to Stage 5 for the next questionnaire.",
