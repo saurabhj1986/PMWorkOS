@@ -1,14 +1,19 @@
-// Sub-agent roster for Mission Control. 6 named agents, each with a role,
-// status, recent activity, and trust scorecard. Click any card to expand.
+// Sub-agent roster for Mission Control. 6 named agents across 3 tiers:
+//   Core     — do the work (TrustReply, Evidence Collector)
+//   Quality  — keep the system honest (Drift Detection, Error Remediation)
+//   Ops      — keep operations flowing (Questionnaire Triage, Notification)
 //
-// Trust score inputs are mock but designed so the computeTrustScore() math
-// produces a believable spread (some agents very trusted, one in REVIEW).
+// Each agent has a tier, a failureMode (interview-ready "without this, X breaks"),
+// a trust scorecard, and recent activity. Used by AgentRoster, AnomalyFeed,
+// and CustomerBriefings via getAgent().
 
 export const agents = [
   {
     id: "trustreply",
     name: "TrustReply Agent",
     role: "Drafts answers to customer security questionnaires",
+    tier: "core",
+    failureMode: "Without this: analysts spend 20 min per answer instead of 12 seconds",
     icon: "MessageSquare",
     status: "idle",
     statusDetail: "Last run 2 min ago · 248 answers drafted today",
@@ -38,6 +43,8 @@ export const agents = [
     id: "evidence_collector",
     name: "Evidence Collector",
     role: "Refreshes expiring evidence from source systems",
+    tier: "core",
+    failureMode: "Without this: evidence goes stale → audit failures → wrong answers ship",
     icon: "FolderSync",
     status: "working",
     statusDetail: "Collecting EVD-008 update · 3 of 5 sources gathered",
@@ -63,6 +70,8 @@ export const agents = [
     id: "drift_detection",
     name: "Drift Detection Agent",
     role: "Catches confidence drift on saved answers when evidence changes",
+    tier: "quality",
+    failureMode: "Without this: approved answers silently become wrong after evidence changes",
     icon: "Activity",
     status: "alert",
     statusDetail: "3 drift events flagged today · 1 critical",
@@ -88,6 +97,8 @@ export const agents = [
     id: "error_remediation",
     name: "Error Remediation Agent",
     role: "Investigates and fixes data mismatches in the trust data lake",
+    tier: "quality",
+    failureMode: "Without this: dashboard shows wrong numbers → bad decisions",
     icon: "Wrench",
     status: "idle",
     statusDetail: "12 mismatches resolved this week",
@@ -112,6 +123,8 @@ export const agents = [
     id: "questionnaire_triage",
     name: "Questionnaire Triage Agent",
     role: "Prioritizes incoming questionnaires by deal value, due date, complexity",
+    tier: "ops",
+    failureMode: "Without this: $5M deals get deprioritized behind $1.9M deals",
     icon: "ListChecks",
     status: "idle",
     statusDetail: "6 questionnaires triaged today",
@@ -136,6 +149,8 @@ export const agents = [
     id: "notification",
     name: "Notification Agent",
     role: "Routes alerts to Slack / email / PagerDuty by severity + on-call",
+    tier: "ops",
+    failureMode: "Without this: SLA breaches go unnoticed for hours",
     icon: "Bell",
     status: "working",
     statusDetail: "Sent 7 alerts today · routing 1 now",

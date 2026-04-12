@@ -31,18 +31,50 @@ const STATUS_STYLE = {
     pill: "bg-slate-700/40 text-slate-300 ring-slate-600/50",
   },
   working: {
-    dot: "bg-blue-500 ",
+    dot: "bg-blue-500",
     label: "Working",
     pill: "bg-blue-500/15 text-blue-300 ring-blue-500/30",
   },
   alert: {
-    dot: "bg-amber-500 ",
+    dot: "bg-amber-500",
     label: "Alert",
     pill: "bg-amber-500/15 text-amber-300 ring-amber-500/30",
   },
 };
 
+const TIER_STYLE = {
+  core: {
+    label: "Core",
+    tagline: "Do the work",
+    pill: "bg-blue-500/15 text-blue-300 ring-blue-500/30",
+    iconBg: "bg-blue-500/15 text-blue-300 ring-1 ring-inset ring-blue-500/30",
+    headerDot: "bg-blue-400",
+  },
+  quality: {
+    label: "Quality",
+    tagline: "Keep it honest",
+    pill: "bg-amber-500/15 text-amber-300 ring-amber-500/30",
+    iconBg: "bg-amber-500/15 text-amber-300 ring-1 ring-inset ring-amber-500/30",
+    headerDot: "bg-amber-400",
+  },
+  ops: {
+    label: "Ops",
+    tagline: "Keep it flowing",
+    pill: "bg-purple-500/15 text-purple-300 ring-purple-500/30",
+    iconBg: "bg-purple-500/15 text-purple-300 ring-1 ring-inset ring-purple-500/30",
+    headerDot: "bg-purple-400",
+  },
+};
+
+const TIER_ORDER = ["core", "quality", "ops"];
+
 export default function AgentRoster() {
+  const grouped = TIER_ORDER.map((tier) => ({
+    tier,
+    style: TIER_STYLE[tier],
+    items: agents.filter((a) => a.tier === tier),
+  }));
+
   return (
     <section className="rounded-2xl border border-slate-800/80 bg-[var(--color-card-bg)] p-5 shadow-[var(--shadow-card)]">
       <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -51,7 +83,7 @@ export default function AgentRoster() {
             Sub-Agent Roster
           </h2>
           <span className="inline-flex items-center gap-1 rounded-full bg-blue-500/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-blue-300 ring-1 ring-inset ring-blue-500/30">
-            6 active
+            6 agents · 3 tiers
           </span>
         </div>
         <div className="flex items-center gap-2 text-[10px] text-[var(--color-muted-text)]">
@@ -67,9 +99,26 @@ export default function AgentRoster() {
         </div>
       </header>
 
-      <div className="mt-3 grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-3">
-        {agents.map((agent) => (
-          <AgentCard key={agent.id} agent={agent} />
+      <div className="mt-4 space-y-4">
+        {grouped.map(({ tier, style, items }) => (
+          <div key={tier}>
+            {/* Tier header */}
+            <div className="mb-2 flex items-center gap-2">
+              <span className={`h-2 w-2 rounded-full ${style.headerDot}`} />
+              <span className="font-mono text-[10px] font-semibold uppercase tracking-wide text-slate-300">
+                {style.label}
+              </span>
+              <span className="font-mono text-[10px] text-[var(--color-muted-text)]">
+                · {style.tagline} · {items.length} agents
+              </span>
+            </div>
+            {/* Agent cards */}
+            <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+              {items.map((agent) => (
+                <AgentCard key={agent.id} agent={agent} />
+              ))}
+            </div>
+          </div>
         ))}
       </div>
     </section>
@@ -80,6 +129,7 @@ function AgentCard({ agent }) {
   const [open, setOpen] = useState(false);
   const Icon = ICON_MAP[agent.icon] ?? CircleDot;
   const status = STATUS_STYLE[agent.status] ?? STATUS_STYLE.idle;
+  const tierStyle = TIER_STYLE[agent.tier] ?? TIER_STYLE.core;
 
   return (
     <div className="overflow-hidden rounded-xl border border-slate-800/80 bg-slate-900/40 transition hover:bg-slate-900/60">
@@ -88,7 +138,7 @@ function AgentCard({ agent }) {
         onClick={() => setOpen((v) => !v)}
         className="flex w-full items-start gap-3 p-3 text-left"
       >
-        <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-blue-500/15 text-blue-300 ring-1 ring-inset ring-blue-500/30">
+        <div className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg ${tierStyle.iconBg}`}>
           <Icon className="h-4 w-4" strokeWidth={2.2} />
         </div>
         <div className="min-w-0 flex-1">
@@ -102,12 +152,17 @@ function AgentCard({ agent }) {
               <span className={`h-1.5 w-1.5 rounded-full ${status.dot}`} />
               {status.label}
             </span>
+            <span
+              className={`inline-flex items-center rounded-full px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-wide ring-1 ring-inset ${tierStyle.pill}`}
+            >
+              {tierStyle.label}
+            </span>
           </div>
           <p className="mt-0.5 line-clamp-1 text-[11px] text-[var(--color-muted-text)]">
             {agent.role}
           </p>
-          <p className="mt-1 line-clamp-1 text-[10px] text-[var(--color-muted-text)]">
-            {agent.statusDetail}
+          <p className="mt-0.5 line-clamp-1 text-[10px] italic text-slate-500">
+            {agent.failureMode}
           </p>
         </div>
         <div className="flex-shrink-0 text-[var(--color-muted-text)]">
