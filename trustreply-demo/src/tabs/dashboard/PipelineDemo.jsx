@@ -323,17 +323,37 @@ function FlowDiagram({ stages, activeIdx, visited, onSelect }) {
 }
 
 function Connector({ visited }) {
+  const color = visited ? "rgba(16,185,129,0.8)" : "rgba(71,85,105,0.6)";
   return (
     <div className="flex h-12 items-center px-0.5">
-      <motion.div
-        className="h-px w-full min-w-[12px]"
-        animate={{
-          background: visited
-            ? "linear-gradient(to right, rgba(16,185,129,0.8), rgba(16,185,129,0.2))"
-            : "rgba(71,85,105,0.6)",
-        }}
-        transition={{ duration: 0.4 }}
-      />
+      <div className="flex w-full min-w-[16px] items-center">
+        <motion.div
+          className="h-px flex-1"
+          animate={{
+            background: visited
+              ? "linear-gradient(to right, rgba(16,185,129,0.8), rgba(16,185,129,0.2))"
+              : "rgba(71,85,105,0.6)",
+          }}
+          transition={{ duration: 0.4 }}
+        />
+        <motion.svg
+          width="8"
+          height="10"
+          viewBox="0 0 8 10"
+          fill="none"
+          className="-ml-px flex-shrink-0"
+          animate={{ opacity: visited ? 1 : 0.4 }}
+          transition={{ duration: 0.4 }}
+        >
+          <path
+            d="M1 1L6 5L1 9"
+            stroke={color}
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </motion.svg>
+      </div>
     </div>
   );
 }
