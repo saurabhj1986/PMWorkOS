@@ -312,21 +312,6 @@ function FlowDiagram({ stages, activeIdx, visited, onSelect }) {
               >
                 {stage.title}
               </h3>
-
-              {/* Stage description */}
-              {stage.description && (
-                <p
-                  className={`mt-0.5 px-1 text-[9px] leading-snug ${
-                    isActive
-                      ? "text-blue-200/70"
-                      : isVisited
-                        ? "text-slate-400"
-                        : "text-slate-600"
-                  }`}
-                >
-                  {stage.description}
-                </p>
-              )}
             </button>
 
             {!isLast && <Connector visited={visited.has(idx + 1)} />}
@@ -384,6 +369,11 @@ function Inspector({ stage }) {
             <p className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-[var(--color-muted-text)]">
               {stage.tagline}
             </p>
+            {stage.description && (
+              <p className="mt-1 text-[11px] leading-snug text-slate-300">
+                {stage.description}
+              </p>
+            )}
             {stage.trustInputs && (
               <div className="mt-2">
                 <TrustScoreBadge inputs={stage.trustInputs} />
