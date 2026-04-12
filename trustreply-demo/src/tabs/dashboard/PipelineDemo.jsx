@@ -40,13 +40,18 @@ const ICON_MAP = {
  *   - Auto-play loops the packet through all 8 stages every ~1.4s
  *   - Compact inspector below shows just stat tiles for the current stage
  */
-export default function PipelineDemo() {
+export default function PipelineDemo({ onStageChange }) {
   const [activeIdx, setActiveIdx] = useState(0);
   const [visited, setVisited] = useState(() => new Set([0]));
   const [playing, setPlaying] = useState(true);
   const intervalRef = useRef(null);
 
   const activeStage = pipelineStages[activeIdx];
+
+  // Notify parent when active stage changes (used to highlight control grid)
+  useEffect(() => {
+    if (onStageChange) onStageChange(activeIdx);
+  }, [activeIdx, onStageChange]);
 
   const visit = (idx) => {
     setActiveIdx(idx);

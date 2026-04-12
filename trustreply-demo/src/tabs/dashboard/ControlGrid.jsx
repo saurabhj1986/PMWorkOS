@@ -13,7 +13,7 @@ const STATUS_ACCENT = {
   needs_review: "text-amber-400",
 };
 
-export default function ControlGrid() {
+export default function ControlGrid({ highlightId }) {
   const total = controls.length;
   const active = controls.filter((c) => c.status === "active").length;
 
@@ -34,23 +34,33 @@ export default function ControlGrid() {
         {controls.map((control) => {
           const Icon = STATUS_ICON[control.status] ?? ShieldCheck;
           const accent = STATUS_ACCENT[control.status] ?? "text-slate-400";
+          const isHighlighted = highlightId === control.id;
           return (
             <div
               key={control.id}
-              className="flex h-full flex-col rounded-lg border border-slate-800/80 bg-[var(--color-card-bg)] p-2.5 shadow-[var(--shadow-card)] transition hover:border-slate-700"
+              className={`flex h-full flex-col rounded-lg border p-2.5 shadow-[var(--shadow-card)] transition-all duration-300 ${
+                isHighlighted
+                  ? "border-blue-500/60 bg-blue-500/10 ring-2 ring-blue-500/25"
+                  : "border-slate-800/80 bg-[var(--color-card-bg)] hover:border-slate-700"
+              }`}
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1">
-                  <Icon className={`h-3.5 w-3.5 ${accent}`} strokeWidth={2.2} />
-                  <span className="font-mono text-[10px] text-[var(--color-muted-text)]">
+                  <Icon className={`h-3.5 w-3.5 ${isHighlighted ? "text-blue-400" : accent}`} strokeWidth={2.2} />
+                  <span className={`font-mono text-[10px] ${isHighlighted ? "text-blue-300 font-semibold" : "text-[var(--color-muted-text)]"}`}>
                     {control.id}
                   </span>
                 </div>
-                {control.status === "needs_review" && (
+                {isHighlighted && (
+                  <span className="inline-flex items-center rounded bg-blue-500/20 px-1 py-0.5 text-[7px] font-bold uppercase text-blue-300 ring-1 ring-inset ring-blue-500/30">
+                    mapped
+                  </span>
+                )}
+                {!isHighlighted && control.status === "needs_review" && (
                   <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
                 )}
               </div>
-              <h3 className="mt-1 text-[11px] font-semibold leading-tight text-slate-100">
+              <h3 className={`mt-1 text-[11px] font-semibold leading-tight ${isHighlighted ? "text-blue-100" : "text-slate-100"}`}>
                 {control.name}
               </h3>
               <div className="mt-auto pt-2 text-[10px] text-[var(--color-muted-text)]">

@@ -11,6 +11,7 @@ const TABS = [
   { id: "dashboard", label: "Trust Dashboard", icon: LayoutDashboard },
   { id: "mission", label: "Mission Control", icon: Radar },
   { id: "agent", label: "TrustReply Agent", icon: MessageSquare },
+  { id: "_divider" },
   { id: "data", label: "Data Model", icon: Database },
   { id: "architecture", label: "Data Architecture", icon: Network },
   { id: "build", label: "How I Built This", icon: BookOpen },
@@ -41,6 +42,16 @@ export default function TabNav({ active, onChange }) {
         </div>
         <nav className="-mb-px flex gap-1 overflow-x-auto">
           {TABS.map((tab) => {
+            if (tab.id === "_divider") {
+              return (
+                <div
+                  key="_divider"
+                  className="mx-1 flex items-center self-stretch"
+                >
+                  <div className="h-5 w-px bg-slate-700" />
+                </div>
+              );
+            }
             const Icon = tab.icon;
             const isActive = active === tab.id;
             return (

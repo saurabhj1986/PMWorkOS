@@ -28,8 +28,8 @@
   /* Primary text -- nearly white */
   --color-dark-text: #F1F5F9;     /* slate-100 (was #0F172A) */
 
-  /* Muted/secondary text -- still readable on dark */
-  --color-muted-text: #94A3B8;    /* slate-400 (was #64748B) */
+  /* Muted/secondary text -- readable on dark (bumped from slate-400 for WCAG AA) */
+  --color-muted-text: #A8B8CB;    /* ~slate-350 — 5.5:1 on card bg */
 
   --color-success: #10B981;
   --color-warning: #F59E0B;
