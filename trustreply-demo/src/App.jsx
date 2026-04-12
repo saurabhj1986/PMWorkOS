@@ -2,29 +2,16 @@ import { useState } from "react";
 import TabNav from "./components/TabNav";
 import Dashboard from "./tabs/dashboard/Dashboard";
 import MissionControl from "./tabs/mission/MissionControl";
-import Placeholder from "./tabs/Placeholder";
+import AgentTab from "./tabs/agent/AgentTab";
+import DataModelTab from "./tabs/data/DataModelTab";
+import BuildTab from "./tabs/build/BuildTab";
 
 const TAB_CONTENT = {
   dashboard: <Dashboard />,
   mission: <MissionControl />,
-  agent: (
-    <Placeholder
-      title="TrustReply Agent"
-      description="Interactive AI agent that answers customer security questions, with a side-by-side reasoning panel showing classify → map → retrieve → draft."
-    />
-  ),
-  data: (
-    <Placeholder
-      title="Data Model"
-      description="Snowflake schema viewer with DDL and sample data for control_inventory, evidence_submissions, and questionnaire_responses."
-    />
-  ),
-  build: (
-    <Placeholder
-      title="How I Built This"
-      description="Design decisions, questions I'd ask Josh, honest knowledge gaps, and an FAQ — the product-thinking tab."
-    />
-  ),
+  agent: <AgentTab />,
+  data: <DataModelTab />,
+  build: <BuildTab />,
 };
 
 export default function App() {
