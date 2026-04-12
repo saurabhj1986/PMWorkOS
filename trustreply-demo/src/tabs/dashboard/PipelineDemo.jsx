@@ -57,7 +57,7 @@ export default function PipelineDemo() {
     });
   };
 
-  // Auto-play loop — advances every 1500ms, wraps back to 0 at the end.
+  // Auto-play — advances every 2500ms, stops at the last stage (no loop).
   useEffect(() => {
     if (!playing) {
       clearInterval(intervalRef.current);
@@ -65,20 +65,33 @@ export default function PipelineDemo() {
     }
     intervalRef.current = setInterval(() => {
       setActiveIdx((prev) => {
-        const next = (prev + 1) % pipelineStages.length;
+        const next = prev + 1;
+        if (next >= pipelineStages.length) {
+          clearInterval(intervalRef.current);
+          setPlaying(false);
+          return prev;
+        }
         setVisited((v) => {
-          if (next === 0) return new Set([0]);
           const merged = new Set(v);
           for (let i = 0; i <= next; i++) merged.add(i);
           return merged;
         });
         return next;
       });
-    }, 1500);
+    }, 2500);
     return () => clearInterval(intervalRef.current);
   }, [playing]);
 
-  const togglePlay = () => setPlaying((v) => !v);
+  const togglePlay = () => {
+    if (!playing && activeIdx >= pipelineStages.length - 1) {
+      // Finished — restart from beginning
+      setActiveIdx(0);
+      setVisited(new Set([0]));
+      setPlaying(true);
+    } else {
+      setPlaying((v) => !v);
+    }
+  };
   const reset = () => {
     setPlaying(false);
     setActiveIdx(0);
@@ -100,7 +113,7 @@ export default function PipelineDemo() {
               Live Pipeline · Latham &amp; Watkins
             </h2>
             <span className="inline-flex items-center gap-1 rounded-full bg-blue-500/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-blue-300 ring-1 ring-inset ring-blue-500/30">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-blue-400" />
+              <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
               In flight
             </span>
           </div>
@@ -213,7 +226,7 @@ function FlowDiagram({ stages, activeIdx, visited, onSelect }) {
                   className="pointer-events-none absolute -top-3 left-1/2 z-10 -translate-x-1/2"
                 >
                   <div className="flex items-center gap-1 rounded-full border border-blue-400/60 bg-blue-500/90 px-1.5 py-0.5 font-mono text-[8px] font-bold uppercase tracking-wide text-white shadow-[0_0_12px_rgba(59,130,246,0.6)]">
-                    <span className="h-1 w-1 animate-pulse rounded-full bg-white" />
+                    <span className="h-1 w-1 rounded-full bg-white" />
                     L&amp;W
                   </div>
                 </motion.div>

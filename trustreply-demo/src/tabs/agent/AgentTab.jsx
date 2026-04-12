@@ -14,7 +14,7 @@ import {
 import { agentSamples } from "../../data/agentSamples";
 import TrustScoreBadge from "../../components/TrustScoreBadge";
 
-const STEP_DURATION_MS = 1200;
+const STEP_DURATION_MS = 2000;
 
 const STEPS = [
   { id: "classify", label: "Classify", Icon: Tags },
@@ -47,6 +47,7 @@ export default function AgentTab() {
       setStepIdx((prev) => {
         if (prev >= STEPS.length - 1) {
           clearInterval(intervalRef.current);
+          setPlaying(false);
           return prev;
         }
         return prev + 1;
@@ -85,7 +86,7 @@ export default function AgentTab() {
             TrustReply Agent
           </h1>
           <span className="inline-flex items-center gap-1 rounded-full bg-blue-500/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-blue-300 ring-1 ring-inset ring-blue-500/30">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-blue-400" />
+            <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
             Live
           </span>
         </div>

@@ -208,7 +208,7 @@ function BriefingCard({ briefing }) {
                     className="flex items-start gap-2 rounded-lg border border-slate-800 bg-slate-900/60 p-2"
                   >
                     <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-md bg-blue-500/15 ring-1 ring-inset ring-blue-500/30">
-                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-blue-400" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
                     </div>
                     <div className="min-w-0 text-xs">
                       <div className="font-semibold text-slate-100">

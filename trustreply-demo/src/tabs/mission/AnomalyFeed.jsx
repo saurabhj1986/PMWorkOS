@@ -62,7 +62,7 @@ export default function AnomalyFeed() {
             Live Anomaly Feed
           </h2>
           <span className="inline-flex items-center gap-1 rounded-full bg-red-500/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-red-300 ring-1 ring-inset ring-red-500/30">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-400" />
+            <span className="h-1.5 w-1.5 rounded-full bg-red-400" />
             {counts.critical + counts.warning} active
           </span>
         </div>

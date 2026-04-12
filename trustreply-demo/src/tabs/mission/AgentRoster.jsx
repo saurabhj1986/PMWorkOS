@@ -31,12 +31,12 @@ const STATUS_STYLE = {
     pill: "bg-slate-700/40 text-slate-300 ring-slate-600/50",
   },
   working: {
-    dot: "bg-blue-500 animate-pulse",
+    dot: "bg-blue-500 ",
     label: "Working",
     pill: "bg-blue-500/15 text-blue-300 ring-blue-500/30",
   },
   alert: {
-    dot: "bg-amber-500 animate-pulse",
+    dot: "bg-amber-500 ",
     label: "Alert",
     pill: "bg-amber-500/15 text-amber-300 ring-amber-500/30",
   },
