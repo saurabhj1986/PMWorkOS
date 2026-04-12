@@ -30,6 +30,9 @@ export default function ControlGrid({ highlightId }) {
           {active}/{total} controls active
         </span>
       </div>
+      <p className="mb-3 text-[11px] leading-snug text-[var(--color-muted-text)]">
+        "Test once, audit many" — each control family maps to multiple frameworks, so one piece of evidence can satisfy SOC 2, ISO 27001, and PCI DSS simultaneously.
+      </p>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8">
         {controls.map((control) => {
           const Icon = STATUS_ICON[control.status] ?? ShieldCheck;
@@ -63,6 +66,22 @@ export default function ControlGrid({ highlightId }) {
               <h3 className={`mt-1 text-[11px] font-semibold leading-tight ${isHighlighted ? "text-blue-100" : "text-slate-100"}`}>
                 {control.name}
               </h3>
+              {control.frameworks && control.frameworks.length > 0 && (
+                <div className="mt-1.5 flex flex-wrap gap-1">
+                  {control.frameworks.map((fw) => (
+                    <span
+                      key={fw}
+                      className={`inline-block rounded px-1 py-0.5 text-[7px] font-medium leading-none ${
+                        isHighlighted
+                          ? "bg-blue-500/20 text-blue-200 ring-1 ring-inset ring-blue-500/30"
+                          : "bg-slate-800 text-slate-400 ring-1 ring-inset ring-slate-700"
+                      }`}
+                    >
+                      {fw}
+                    </span>
+                  ))}
+                </div>
+              )}
               <div className="mt-auto pt-2 text-[10px] text-[var(--color-muted-text)]">
                 <span className="font-mono text-slate-300">
                   {control.evidenceCount}

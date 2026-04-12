@@ -312,6 +312,21 @@ function FlowDiagram({ stages, activeIdx, visited, onSelect }) {
               >
                 {stage.title}
               </h3>
+
+              {/* Stage description */}
+              {stage.description && (
+                <p
+                  className={`mt-0.5 px-1 text-[9px] leading-snug ${
+                    isActive
+                      ? "text-blue-200/70"
+                      : isVisited
+                        ? "text-slate-400"
+                        : "text-slate-600"
+                  }`}
+                >
+                  {stage.description}
+                </p>
+              )}
             </button>
 
             {!isLast && <Connector visited={visited.has(idx + 1)} />}
