@@ -1,6 +1,7 @@
 import KpiCards from "./KpiCards";
 import QuestionnaireTable from "./QuestionnaireTable";
 import ControlGrid from "./ControlGrid";
+import PipelineDemo from "./PipelineDemo";
 
 export default function Dashboard() {
   return (
@@ -15,6 +16,7 @@ export default function Dashboard() {
           <span className="font-mono text-[var(--color-accent-blue)]">i</span> for context.
         </p>
       </div>
+      <PipelineDemo />
       <KpiCards />
       <QuestionnaireTable />
       <ControlGrid />
