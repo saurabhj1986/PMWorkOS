@@ -3,6 +3,7 @@ import {
   Radar,
   MessageSquare,
   Database,
+  Network,
   BookOpen,
 } from "lucide-react";
 
@@ -11,6 +12,7 @@ const TABS = [
   { id: "mission", label: "Mission Control", icon: Radar },
   { id: "agent", label: "TrustReply Agent", icon: MessageSquare },
   { id: "data", label: "Data Model", icon: Database },
+  { id: "architecture", label: "Data Architecture", icon: Network },
   { id: "build", label: "How I Built This", icon: BookOpen },
 ];
 

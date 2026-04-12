@@ -4,6 +4,7 @@ import Dashboard from "./tabs/dashboard/Dashboard";
 import MissionControl from "./tabs/mission/MissionControl";
 import AgentTab from "./tabs/agent/AgentTab";
 import DataModelTab from "./tabs/data/DataModelTab";
+import ArchitectureTab from "./tabs/architecture/ArchitectureTab";
 import BuildTab from "./tabs/build/BuildTab";
 
 const TAB_CONTENT = {
@@ -11,6 +12,7 @@ const TAB_CONTENT = {
   mission: <MissionControl />,
   agent: <AgentTab />,
   data: <DataModelTab />,
+  architecture: <ArchitectureTab />,
   build: <BuildTab />,
 };
 
