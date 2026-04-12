@@ -15,6 +15,7 @@ import {
   Info,
 } from "lucide-react";
 import { pipelineStages } from "../../data/pipelineStages";
+import TrustScoreBadge from "../../components/TrustScoreBadge";
 
 const ICON_MAP = {
   Inbox,
@@ -266,6 +267,11 @@ function Inspector({ stage }) {
               {stage.behind}
             </p>
           </Section>
+          {stage.trustInputs && (
+            <Section label="Trust scorecard for this output">
+              <TrustScoreBadge inputs={stage.trustInputs} variant="expanded" />
+            </Section>
+          )}
           <Section label="Why this matters">
             <p>{stage.why}</p>
           </Section>

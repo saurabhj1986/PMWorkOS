@@ -1,7 +1,14 @@
-import { LayoutDashboard, MessageSquare, Database, BookOpen } from "lucide-react";
+import {
+  LayoutDashboard,
+  Radar,
+  MessageSquare,
+  Database,
+  BookOpen,
+} from "lucide-react";
 
 const TABS = [
   { id: "dashboard", label: "Trust Dashboard", icon: LayoutDashboard },
+  { id: "mission", label: "Mission Control", icon: Radar },
   { id: "agent", label: "TrustReply Agent", icon: MessageSquare },
   { id: "data", label: "Data Model", icon: Database },
   { id: "build", label: "How I Built This", icon: BookOpen },

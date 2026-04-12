@@ -136,6 +136,12 @@ export const pipelineStages = [
     ],
     why: "96% confidence + 89% reuse = analyst approves in seconds, not 20 minutes. This is where the dashboard's 84% Reuse Rate KPI comes from.",
     hoverPreview: "Draft · 0.96 conf · 89% reuse · 0 hallucinations",
+    trustInputs: {
+      confidence: 0.96,
+      accuracy: 0.94,
+      freshness: 0.97,
+      benchmark: 0.92,
+    },
   },
   {
     id: "review",

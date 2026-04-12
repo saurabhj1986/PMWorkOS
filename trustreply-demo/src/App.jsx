@@ -1,10 +1,12 @@
 import { useState } from "react";
 import TabNav from "./components/TabNav";
 import Dashboard from "./tabs/dashboard/Dashboard";
+import MissionControl from "./tabs/mission/MissionControl";
 import Placeholder from "./tabs/Placeholder";
 
 const TAB_CONTENT = {
   dashboard: <Dashboard />,
+  mission: <MissionControl />,
   agent: (
     <Placeholder
       title="TrustReply Agent"
