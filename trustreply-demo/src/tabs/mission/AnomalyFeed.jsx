@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   AlertOctagon,
   AlertTriangle,
@@ -55,21 +56,15 @@ export default function AnomalyFeed() {
 
   return (
     <section className="rounded-2xl border border-slate-800/80 bg-[var(--color-card-bg)] p-5 shadow-[var(--shadow-card)]">
-      <header className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <div className="flex items-center gap-2">
-            <h2 className="font-serif text-base font-semibold text-[var(--color-dark-text)]">
-              Live Anomaly Feed
-            </h2>
-            <span className="rounded-full bg-red-500/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-red-300 ring-1 ring-inset ring-red-500/30">
-              {counts.critical + counts.warning} active
-            </span>
-          </div>
-          <p className="mt-1 max-w-2xl text-xs text-[var(--color-muted-text)]">
-            Real-time issues detected across the trust function. Click any
-            alert to expand the investigation, then dispatch the suggested
-            agent.
-          </p>
+      <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-2">
+          <h2 className="font-serif text-base font-semibold text-[var(--color-dark-text)]">
+            Live Anomaly Feed
+          </h2>
+          <span className="inline-flex items-center gap-1 rounded-full bg-red-500/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-red-300 ring-1 ring-inset ring-red-500/30">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-400" />
+            {counts.critical + counts.warning} active
+          </span>
         </div>
         <div className="flex items-center gap-2 text-xs">
           <SeverityCounter label="Critical" count={counts.critical} severity="critical" />
@@ -159,75 +154,57 @@ function AnomalyRow({ anomaly }) {
         </div>
       </button>
 
-      {open && (
-        <div className="border-t border-slate-800/60 bg-slate-950/40 p-4">
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-            <div className="lg:col-span-2 lg:border-r lg:border-slate-800 lg:pr-4">
-              <Block label="What we detected">
-                <p>{anomaly.body}</p>
-              </Block>
-              <Block label="Investigation detail">
-                <p>{anomaly.expandedDetails}</p>
-              </Block>
-              <Block label="Affected entities">
-                <div className="flex flex-wrap gap-1.5">
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="overflow-hidden border-t border-slate-800/60 bg-slate-950/40"
+          >
+            <div className="grid grid-cols-1 gap-3 p-3 lg:grid-cols-3">
+              <div className="lg:col-span-2 lg:border-r lg:border-slate-800 lg:pr-3">
+                <div className="font-mono text-[9px] uppercase tracking-wide text-[var(--color-muted-text)]">
+                  Affected entities
+                </div>
+                <div className="mt-1.5 flex flex-wrap gap-1">
                   {anomaly.affectedEntities.map((e, i) => (
                     <span
                       key={i}
-                      className="inline-flex items-center gap-1 rounded-md bg-slate-800/60 px-2 py-0.5 text-[11px] font-mono text-slate-200 ring-1 ring-inset ring-slate-700"
+                      className="inline-flex items-center gap-1 rounded-md bg-slate-800/60 px-1.5 py-0.5 text-[10px] font-mono text-slate-200 ring-1 ring-inset ring-slate-700"
                     >
-                      <span className="text-[9px] uppercase tracking-wide text-slate-500">
+                      <span className="text-[8px] uppercase tracking-wide text-slate-500">
                         {e.kind}
                       </span>
                       <span>{e.id}</span>
                     </span>
                   ))}
                 </div>
-              </Block>
-            </div>
-            <div className="lg:pl-1">
-              <div className="font-mono text-[10px] uppercase tracking-wide text-[var(--color-muted-text)]">
-                Suggested action
               </div>
-              <div className="mt-2 rounded-lg border border-slate-800 bg-slate-900/60 p-3">
-                {agent && (
-                  <div className="flex items-center gap-2">
-                    <div className="flex h-7 w-7 items-center justify-center rounded-md bg-blue-500/15 text-blue-300 ring-1 ring-inset ring-blue-500/30">
-                      <Zap className="h-3.5 w-3.5" strokeWidth={2.5} />
-                    </div>
-                    <div className="min-w-0">
-                      <div className="text-[10px] uppercase tracking-wide text-[var(--color-muted-text)]">
-                        Dispatch
+              <div>
+                <div className="font-mono text-[9px] uppercase tracking-wide text-[var(--color-muted-text)]">
+                  Dispatch
+                </div>
+                <div className="mt-1.5 rounded-lg border border-slate-800 bg-slate-900/60 p-2">
+                  {agent && (
+                    <div className="flex items-center gap-2">
+                      <div className="flex h-6 w-6 items-center justify-center rounded-md bg-blue-500/15 text-blue-300 ring-1 ring-inset ring-blue-500/30">
+                        <Zap className="h-3 w-3" strokeWidth={2.5} />
                       </div>
-                      <div className="truncate text-xs font-semibold text-slate-100">
+                      <div className="truncate text-[11px] font-semibold text-slate-100">
                         {agent.name}
                       </div>
                     </div>
-                  </div>
-                )}
-                <p className="mt-2 text-[11px] leading-snug text-[var(--color-muted-text)]">
-                  {anomaly.suggestedAction}
-                </p>
-                <DispatchButton state={dispatchState} onClick={dispatchAgent} />
+                  )}
+                  <DispatchButton state={dispatchState} onClick={dispatchAgent} />
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </li>
-  );
-}
-
-function Block({ label, children }) {
-  return (
-    <div className="mb-3 last:mb-0">
-      <div className="font-mono text-[10px] uppercase tracking-wide text-[var(--color-muted-text)]">
-        {label}
-      </div>
-      <div className="mt-1 text-xs leading-relaxed text-slate-200">
-        {children}
-      </div>
-    </div>
   );
 }
 

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Building2,
   Calendar,
@@ -8,6 +9,7 @@ import {
   Repeat,
   Target,
   Clock,
+  Lightbulb,
 } from "lucide-react";
 import { customerBriefings } from "../../data/customerBriefings";
 import { getAgent } from "../../data/agents";
@@ -20,17 +22,13 @@ export default function CustomerBriefings() {
 
   return (
     <section className="rounded-2xl border border-slate-800/80 bg-[var(--color-card-bg)] p-5 shadow-[var(--shadow-card)]">
-      <header className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <h2 className="font-serif text-base font-semibold text-[var(--color-dark-text)]">
-            Customer Briefings
-          </h2>
-          <p className="mt-1 max-w-2xl text-xs text-[var(--color-muted-text)]">
-            One-click "what's happening on this deal?" Click any customer chip
-            to see questionnaire status, blockers, the agents currently working
-            it, and a recommendation.
-          </p>
-        </div>
+      <header className="flex items-center gap-2">
+        <h2 className="font-serif text-base font-semibold text-[var(--color-dark-text)]">
+          Customer Briefings
+        </h2>
+        <span className="inline-flex items-center rounded-full bg-blue-500/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-blue-300 ring-1 ring-inset ring-blue-500/30">
+          {customerBriefings.length} deals
+        </span>
       </header>
 
       <div className="mt-3 -mx-1 flex flex-wrap gap-2 px-1">
@@ -66,7 +64,17 @@ export default function CustomerBriefings() {
         })}
       </div>
 
-      <BriefingCard briefing={briefing} />
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={briefing.id}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -6 }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+        >
+          <BriefingCard briefing={briefing} />
+        </motion.div>
+      </AnimatePresence>
     </section>
   );
 }
@@ -218,11 +226,11 @@ function BriefingCard({ briefing }) {
         </div>
       </div>
 
-      <div className="border-t border-slate-800/60 bg-slate-950/40 p-4">
-        <div className="font-mono text-[10px] uppercase tracking-wide text-[var(--color-muted-text)]">
-          Recommendation
+      <div className="flex items-start gap-2 border-t border-slate-800/60 bg-slate-950/40 p-3">
+        <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-md bg-blue-500/15 text-blue-300 ring-1 ring-inset ring-blue-500/30">
+          <Lightbulb className="h-3.5 w-3.5" strokeWidth={2.5} />
         </div>
-        <p className="mt-1 text-xs leading-relaxed text-slate-200">
+        <p className="line-clamp-2 text-[11px] leading-snug text-slate-200">
           {briefing.recommendation}
         </p>
       </div>
