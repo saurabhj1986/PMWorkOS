@@ -17,27 +17,30 @@ import { formatPct } from "../../lib/trustScore";
 const SEVERITY_STYLE = {
   critical: {
     Icon: AlertOctagon,
-    iconColor: "text-red-600",
-    iconBg: "bg-red-100",
-    border: "border-red-200",
-    badge: "bg-red-100 text-red-700 ring-red-200",
+    iconColor: "text-red-300",
+    iconBg: "bg-red-500/20",
+    border: "border-red-500/30",
+    badge: "bg-red-500/15 text-red-300 ring-red-500/30",
     label: "CRITICAL",
+    dot: "bg-red-500",
   },
   warning: {
     Icon: AlertTriangle,
-    iconColor: "text-amber-600",
-    iconBg: "bg-amber-100",
-    border: "border-amber-200",
-    badge: "bg-amber-100 text-amber-700 ring-amber-200",
+    iconColor: "text-amber-300",
+    iconBg: "bg-amber-500/20",
+    border: "border-amber-500/30",
+    badge: "bg-amber-500/15 text-amber-300 ring-amber-500/30",
     label: "WARNING",
+    dot: "bg-amber-500",
   },
   info: {
     Icon: Info,
-    iconColor: "text-blue-600",
-    iconBg: "bg-blue-100",
-    border: "border-blue-200",
-    badge: "bg-blue-100 text-blue-700 ring-blue-200",
+    iconColor: "text-blue-300",
+    iconBg: "bg-blue-500/20",
+    border: "border-blue-500/30",
+    badge: "bg-blue-500/15 text-blue-300 ring-blue-500/30",
     label: "INFO",
+    dot: "bg-blue-500",
   },
 };
 
@@ -51,20 +54,21 @@ export default function AnomalyFeed() {
   );
 
   return (
-    <section className="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-[var(--shadow-card)]">
+    <section className="rounded-2xl border border-slate-800/80 bg-[var(--color-card-bg)] p-5 shadow-[var(--shadow-card)]">
       <header className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="font-serif text-lg font-semibold text-[var(--color-dark-text)]">
+            <h2 className="font-serif text-base font-semibold text-[var(--color-dark-text)]">
               Live Anomaly Feed
             </h2>
-            <span className="rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-red-600 ring-1 ring-inset ring-red-200">
+            <span className="rounded-full bg-red-500/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-red-300 ring-1 ring-inset ring-red-500/30">
               {counts.critical + counts.warning} active
             </span>
           </div>
-          <p className="mt-1 max-w-2xl text-sm text-[var(--color-muted-text)]">
-            Real-time issues detected across the trust function. Click any alert
-            to expand the investigation, then dispatch the suggested agent.
+          <p className="mt-1 max-w-2xl text-xs text-[var(--color-muted-text)]">
+            Real-time issues detected across the trust function. Click any
+            alert to expand the investigation, then dispatch the suggested
+            agent.
           </p>
         </div>
         <div className="flex items-center gap-2 text-xs">
@@ -74,7 +78,7 @@ export default function AnomalyFeed() {
         </div>
       </header>
 
-      <ul className="mt-4 space-y-2">
+      <ul className="mt-3 space-y-2">
         {anomalies.map((anomaly) => (
           <AnomalyRow key={anomaly.id} anomaly={anomaly} />
         ))}
@@ -86,10 +90,10 @@ export default function AnomalyFeed() {
 function SeverityCounter({ label, count, severity }) {
   const style = SEVERITY_STYLE[severity];
   return (
-    <div className={`flex items-center gap-1.5 rounded-md border px-2 py-1 ${style.border} bg-white`}>
-      <div className={`h-2 w-2 rounded-full ${style.iconBg.replace("bg-", "bg-").replace("-100", "-500")}`} />
+    <div className={`flex items-center gap-1.5 rounded-md border px-2 py-1 ${style.border} bg-slate-900/60`}>
+      <div className={`h-2 w-2 rounded-full ${style.dot}`} />
       <span className="text-[var(--color-muted-text)]">{label}</span>
-      <span className="font-mono font-medium text-[var(--color-dark-text)]">
+      <span className="font-mono font-medium text-slate-100">
         {count}
       </span>
     </div>
@@ -110,18 +114,18 @@ function AnomalyRow({ anomaly }) {
   };
 
   return (
-    <li className={`overflow-hidden rounded-xl border ${style.border} bg-white transition-shadow hover:shadow-sm`}>
+    <li className={`overflow-hidden rounded-xl border ${style.border} bg-slate-900/40 transition hover:bg-slate-900/60`}>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         className="flex w-full items-start gap-3 p-3 text-left"
       >
-        <div className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg ${style.iconBg}`}>
-          <SeverityIcon className={`h-5 w-5 ${style.iconColor}`} strokeWidth={2.2} />
+        <div className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg ${style.iconBg}`}>
+          <SeverityIcon className={`h-4 w-4 ${style.iconColor}`} strokeWidth={2.2} />
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold uppercase ring-1 ring-inset ${style.badge}`}>
+            <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[9px] font-bold uppercase ring-1 ring-inset ${style.badge}`}>
               {style.label}
             </span>
             <span className="text-[10px] font-medium uppercase tracking-wide text-[var(--color-muted-text)]">
@@ -132,16 +136,16 @@ function AnomalyRow({ anomaly }) {
             </span>
             <span className="ml-auto inline-flex items-center gap-1 font-mono text-[10px] text-[var(--color-muted-text)]">
               detection conf{" "}
-              <span className="font-medium text-[var(--color-dark-text)]">
+              <span className="font-medium text-slate-200">
                 {formatPct(anomaly.detectionConfidence)}
               </span>
             </span>
           </div>
-          <h3 className="mt-1 text-sm font-semibold leading-snug text-[var(--color-dark-text)]">
+          <h3 className="mt-1 text-xs font-semibold leading-snug text-slate-100">
             {anomaly.title}
           </h3>
           {!open && (
-            <p className="mt-1 line-clamp-1 text-xs text-[var(--color-muted-text)]">
+            <p className="mt-0.5 line-clamp-1 text-[11px] text-[var(--color-muted-text)]">
               {anomaly.body}
             </p>
           )}
@@ -156,9 +160,9 @@ function AnomalyRow({ anomaly }) {
       </button>
 
       {open && (
-        <div className="border-t border-slate-100 bg-slate-50/40 p-4">
+        <div className="border-t border-slate-800/60 bg-slate-950/40 p-4">
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-            <div className="lg:col-span-2 lg:border-r lg:border-slate-200 lg:pr-4">
+            <div className="lg:col-span-2 lg:border-r lg:border-slate-800 lg:pr-4">
               <Block label="What we detected">
                 <p>{anomaly.body}</p>
               </Block>
@@ -170,9 +174,9 @@ function AnomalyRow({ anomaly }) {
                   {anomaly.affectedEntities.map((e, i) => (
                     <span
                       key={i}
-                      className="inline-flex items-center gap-1 rounded-md bg-white px-2 py-0.5 text-[11px] font-mono text-[var(--color-dark-text)] ring-1 ring-inset ring-slate-200"
+                      className="inline-flex items-center gap-1 rounded-md bg-slate-800/60 px-2 py-0.5 text-[11px] font-mono text-slate-200 ring-1 ring-inset ring-slate-700"
                     >
-                      <span className="text-[9px] uppercase tracking-wide text-[var(--color-muted-text)]">
+                      <span className="text-[9px] uppercase tracking-wide text-slate-500">
                         {e.kind}
                       </span>
                       <span>{e.id}</span>
@@ -185,17 +189,17 @@ function AnomalyRow({ anomaly }) {
               <div className="font-mono text-[10px] uppercase tracking-wide text-[var(--color-muted-text)]">
                 Suggested action
               </div>
-              <div className="mt-2 rounded-lg border border-slate-200 bg-white p-3">
+              <div className="mt-2 rounded-lg border border-slate-800 bg-slate-900/60 p-3">
                 {agent && (
                   <div className="flex items-center gap-2">
-                    <div className="flex h-7 w-7 items-center justify-center rounded-md bg-blue-50 text-[var(--color-accent-blue)]">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-md bg-blue-500/15 text-blue-300 ring-1 ring-inset ring-blue-500/30">
                       <Zap className="h-3.5 w-3.5" strokeWidth={2.5} />
                     </div>
                     <div className="min-w-0">
                       <div className="text-[10px] uppercase tracking-wide text-[var(--color-muted-text)]">
                         Dispatch
                       </div>
-                      <div className="truncate text-xs font-semibold text-[var(--color-dark-text)]">
+                      <div className="truncate text-xs font-semibold text-slate-100">
                         {agent.name}
                       </div>
                     </div>
@@ -220,7 +224,7 @@ function Block({ label, children }) {
       <div className="font-mono text-[10px] uppercase tracking-wide text-[var(--color-muted-text)]">
         {label}
       </div>
-      <div className="mt-1 text-xs leading-relaxed text-[var(--color-dark-text)]">
+      <div className="mt-1 text-xs leading-relaxed text-slate-200">
         {children}
       </div>
     </div>
@@ -233,7 +237,7 @@ function DispatchButton({ state, onClick }) {
       <button
         type="button"
         onClick={onClick}
-        className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-[var(--color-accent-blue)] px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-600"
+        className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-[var(--color-accent-blue)] px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-500"
       >
         Dispatch Agent
         <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} />
@@ -242,7 +246,7 @@ function DispatchButton({ state, onClick }) {
   }
   if (state === "acknowledged") {
     return (
-      <div className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700 ring-1 ring-inset ring-blue-200">
+      <div className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-blue-500/15 px-3 py-1.5 text-xs font-semibold text-blue-300 ring-1 ring-inset ring-blue-500/30">
         <Loader2 className="h-3.5 w-3.5 animate-spin" strokeWidth={2.5} />
         Agent acknowledged
       </div>
@@ -250,14 +254,14 @@ function DispatchButton({ state, onClick }) {
   }
   if (state === "working") {
     return (
-      <div className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-700 ring-1 ring-inset ring-amber-200">
+      <div className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-amber-500/15 px-3 py-1.5 text-xs font-semibold text-amber-300 ring-1 ring-inset ring-amber-500/30">
         <Loader2 className="h-3.5 w-3.5 animate-spin" strokeWidth={2.5} />
         Working on it...
       </div>
     );
   }
   return (
-    <div className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700 ring-1 ring-inset ring-emerald-200">
+    <div className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-emerald-500/15 px-3 py-1.5 text-xs font-semibold text-emerald-300 ring-1 ring-inset ring-emerald-500/30">
       <CheckCircle2 className="h-3.5 w-3.5" strokeWidth={2.5} />
       Resolved · agent report posted
     </div>

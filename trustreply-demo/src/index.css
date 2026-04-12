@@ -1,14 +1,36 @@
 @import "tailwindcss";
 
 @theme {
-  --color-navy: #0F172A;
-  --color-deep-blue: #162036;
+  /* Dark "ops console" palette
+     Variable names are kept from the original light theme so that every
+     component using var(--color-light-bg), var(--color-card-bg),
+     var(--color-dark-text), var(--color-muted-text) auto-themes without
+     a per-component edit. Values flipped to dark below. */
+
+  --color-navy: #0F172A;          /* slate-900 */
+  --color-deep-blue: #020617;     /* slate-950 */
   --color-accent-blue: #3B82F6;
   --color-teal: #0EA5E9;
-  --color-light-bg: #F0F4FA;
-  --color-card-bg: #FFFFFF;
-  --color-dark-text: #0F172A;
-  --color-muted-text: #64748B;
+
+  /* Page background -- deepest layer */
+  --color-light-bg: #020617;      /* slate-950 (was #F0F4FA) */
+
+  /* Card surface -- one step up from the page */
+  --color-card-bg: #0F172A;       /* slate-900 (was white) */
+
+  /* Elevated/raised surface -- hover or nested */
+  --color-elevated-bg: #1E293B;   /* slate-800 */
+
+  /* Subtle divider/border tone */
+  --color-border: #1E293B;        /* slate-800 */
+  --color-border-soft: #1E293B;
+
+  /* Primary text -- nearly white */
+  --color-dark-text: #F1F5F9;     /* slate-100 (was #0F172A) */
+
+  /* Muted/secondary text -- still readable on dark */
+  --color-muted-text: #94A3B8;    /* slate-400 (was #64748B) */
+
   --color-success: #10B981;
   --color-warning: #F59E0B;
   --color-alert: #F97316;
@@ -18,8 +40,11 @@
   --font-serif: "Source Serif 4", Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  --shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
-  --shadow-card-hover: 0 4px 12px 0 rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  /* Shadows on dark backgrounds need more contrast (deeper black) */
+  --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.4),
+                 0 1px 2px -1px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 10px 25px -5px rgba(0, 0, 0, 0.6),
+                       0 4px 6px -4px rgba(0, 0, 0, 0.4);
 }
 
 html,

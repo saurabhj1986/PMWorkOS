@@ -24,7 +24,7 @@ export default function Tooltip({ text, className = "" }) {
       {open && (
         <span
           role="tooltip"
-          className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 w-64 -translate-x-1/2 rounded-lg bg-[var(--color-navy)] px-3 py-2 text-xs leading-snug text-white shadow-xl"
+          className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 w-64 -translate-x-1/2 rounded-lg border border-slate-700 bg-slate-950/95 px-3 py-2 text-xs leading-snug text-slate-100 shadow-xl"
         >
           {text}
         </span>

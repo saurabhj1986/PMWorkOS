@@ -1,19 +1,14 @@
-// Status pill component — color-coded by status value
-// Conventions from context doc:
-//   green  = active / completed / current
-//   yellow = needs_review / needs_update
-//   blue   = in_progress
-//   gray   = pending / deprecated
+// Status pill component — color-coded by status value (dark theme variant).
 const STYLES = {
-  active: "bg-emerald-50 text-emerald-700 ring-emerald-200",
-  completed: "bg-emerald-50 text-emerald-700 ring-emerald-200",
-  current: "bg-emerald-50 text-emerald-700 ring-emerald-200",
-  needs_review: "bg-amber-50 text-amber-700 ring-amber-200",
-  needs_update: "bg-amber-50 text-amber-700 ring-amber-200",
-  in_progress: "bg-blue-50 text-blue-700 ring-blue-200",
-  pending: "bg-slate-100 text-slate-600 ring-slate-200",
-  deprecated: "bg-slate-100 text-slate-600 ring-slate-200",
-  expired: "bg-red-50 text-red-700 ring-red-200",
+  active: "bg-emerald-500/15 text-emerald-300 ring-emerald-500/30",
+  completed: "bg-emerald-500/15 text-emerald-300 ring-emerald-500/30",
+  current: "bg-emerald-500/15 text-emerald-300 ring-emerald-500/30",
+  needs_review: "bg-amber-500/15 text-amber-300 ring-amber-500/30",
+  needs_update: "bg-amber-500/15 text-amber-300 ring-amber-500/30",
+  in_progress: "bg-blue-500/15 text-blue-300 ring-blue-500/30",
+  pending: "bg-slate-700/40 text-slate-300 ring-slate-600/50",
+  deprecated: "bg-slate-700/40 text-slate-300 ring-slate-600/50",
+  expired: "bg-red-500/15 text-red-300 ring-red-500/30",
 };
 
 const LABELS = {
@@ -29,11 +24,11 @@ const LABELS = {
 };
 
 export default function StatusPill({ status }) {
-  const cls = STYLES[status] ?? "bg-slate-100 text-slate-600 ring-slate-200";
+  const cls = STYLES[status] ?? "bg-slate-700/40 text-slate-300 ring-slate-600/50";
   const label = LABELS[status] ?? status;
   return (
     <span
-      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset ${cls}`}
+      className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium ring-1 ring-inset ${cls}`}
     >
       {label}
     </span>
