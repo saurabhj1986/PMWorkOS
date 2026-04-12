@@ -176,3 +176,16 @@ export const dataModelTables = [
     relations: [],
   },
 ];
+
+/** Explicit relationships with cardinality for the ERD diagram. */
+export const relationships = [
+  { id: "cust-qr", source: "customers", target: "questionnaire_responses", cardinality: "1 : N", label: "customer_id" },
+  { id: "cust-deals", source: "customers", target: "deals", cardinality: "1 : N", label: "customer_id" },
+  { id: "ci-evd", source: "control_inventory", target: "evidence_submissions", cardinality: "1 : N", label: "control_id" },
+  { id: "ci-ans", source: "control_inventory", target: "approved_answers", cardinality: "1 : N", label: "control_id" },
+  { id: "qr-ans", source: "questionnaire_responses", target: "approved_answers", cardinality: "N : M", label: "answer reuse" },
+  { id: "ans-ts", source: "approved_answers", target: "trust_scores", cardinality: "1 : N", label: "entity_id" },
+  { id: "deals-qr", source: "deals", target: "questionnaire_responses", cardinality: "1 : 1", label: "response_id" },
+  { id: "al-ans", source: "audit_log", target: "approved_answers", cardinality: "N : 1", label: "entity_id", dashed: true },
+  { id: "al-evd", source: "audit_log", target: "evidence_submissions", cardinality: "N : 1", label: "entity_id", dashed: true },
+];

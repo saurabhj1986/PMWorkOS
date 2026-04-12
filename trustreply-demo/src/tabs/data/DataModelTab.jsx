@@ -64,7 +64,7 @@ export default function DataModelTab() {
       <div className="grid grid-cols-4 gap-2">
         <QuickStat value="8" label="tables" />
         <QuickStat value="54" label="columns" />
-        <QuickStat value="11" label="foreign keys" />
+        <QuickStat value="9" label="relationships" />
         <QuickStat value="~98K" label="rows (projected)" />
       </div>
 
