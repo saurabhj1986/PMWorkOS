@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Inbox,
@@ -13,8 +13,11 @@ import {
   Pause,
   RotateCcw,
   CheckCircle2,
+  ChevronDown,
+  Columns2,
 } from "lucide-react";
 import { pipelineStages } from "../../data/pipelineStages";
+import { clients } from "../../data/clients";
 import TrustScoreBadge from "../../components/TrustScoreBadge";
 
 const ICON_MAP = {
@@ -28,30 +31,38 @@ const ICON_MAP = {
   Send,
 };
 
-/**
- * PipelineDemo — animated flow of a real questionnaire (Latham & Watkins
- * CAIQ v4, 261 questions) moving through TrustReply's 8-stage pipeline.
- *
- * Visual model:
- *   - 8 nodes evenly distributed across one row
- *   - A "packet" (the questionnaire) visibly slides between nodes via
- *     framer-motion's shared layout animation
- *   - Each stage shows a single big stat (no paragraphs)
- *   - Auto-play loops the packet through all 8 stages every ~1.4s
- *   - Compact inspector below shows just stat tiles for the current stage
- */
+/** Merge base stage definition with client-specific overrides */
+function mergeStages(clientId) {
+  const client = clients.find((c) => c.id === clientId) ?? clients[0];
+  return pipelineStages.map((stage) => ({
+    ...stage,
+    ...client.stages[stage.id],
+  }));
+}
+
 export default function PipelineDemo({ onStageChange }) {
   const [activeIdx, setActiveIdx] = useState(0);
   const [visited, setVisited] = useState(() => new Set([0]));
   const [playing, setPlaying] = useState(true);
+  const [clientId, setClientId] = useState("latham");
+  const [comparing, setComparing] = useState(false);
+  const [compareId, setCompareId] = useState("goldman");
   const intervalRef = useRef(null);
 
-  const activeStage = pipelineStages[activeIdx];
+  const client = clients.find((c) => c.id === clientId) ?? clients[0];
+  const compareClient = clients.find((c) => c.id === compareId) ?? clients[1];
+  const stages = useMemo(() => mergeStages(clientId), [clientId]);
+  const compareStages = useMemo(() => mergeStages(compareId), [compareId]);
+  const activeStage = stages[activeIdx];
+  const compareActiveStage = compareStages[activeIdx];
 
-  // Notify parent when active stage changes (used to highlight control grid)
+  // Notify parent when active stage or client changes
   useEffect(() => {
-    if (onStageChange) onStageChange(activeIdx);
-  }, [activeIdx, onStageChange]);
+    if (onStageChange) {
+      const controlId = activeIdx >= 3 ? client.mappedControl : null;
+      onStageChange(activeIdx, controlId);
+    }
+  }, [activeIdx, clientId, client.mappedControl, onStageChange]);
 
   const visit = (idx) => {
     setActiveIdx(idx);
@@ -62,7 +73,7 @@ export default function PipelineDemo({ onStageChange }) {
     });
   };
 
-  // Auto-play — advances every 2500ms, stops at the last stage (no loop).
+  // Auto-play
   useEffect(() => {
     if (!playing) {
       clearInterval(intervalRef.current);
@@ -89,7 +100,6 @@ export default function PipelineDemo({ onStageChange }) {
 
   const togglePlay = () => {
     if (!playing && activeIdx >= pipelineStages.length - 1) {
-      // Finished — restart from beginning
       setActiveIdx(0);
       setVisited(new Set([0]));
       setPlaying(true);
@@ -101,6 +111,25 @@ export default function PipelineDemo({ onStageChange }) {
     setPlaying(false);
     setActiveIdx(0);
     setVisited(new Set([0]));
+  };
+
+  const switchClient = useCallback(
+    (id) => {
+      setClientId(id);
+      setPlaying(false);
+      setActiveIdx(0);
+      setVisited(new Set([0]));
+      // auto-pick a different compare client
+      if (id === compareId) {
+        const alt = clients.find((c) => c.id !== id);
+        if (alt) setCompareId(alt.id);
+      }
+    },
+    [compareId],
+  );
+
+  const toggleCompare = () => {
+    setComparing((v) => !v);
   };
 
   const progressPct = useMemo(
@@ -115,7 +144,10 @@ export default function PipelineDemo({ onStageChange }) {
         <div>
           <div className="flex items-center gap-2">
             <h2 className="font-serif text-base font-semibold text-[var(--color-dark-text)]">
-              Live Pipeline · Latham &amp; Watkins
+              Live Pipeline{" "}
+              {comparing
+                ? `· ${client.shortName} vs ${compareClient.shortName}`
+                : `· ${client.name}`}
             </h2>
             <span className="inline-flex items-center gap-1 rounded-full bg-blue-500/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-blue-300 ring-1 ring-inset ring-blue-500/30">
               <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
@@ -123,11 +155,62 @@ export default function PipelineDemo({ onStageChange }) {
             </span>
           </div>
           <p className="mt-1 text-xs text-[var(--color-muted-text)]">
-            CAIQ v4 · 261 questions · $4.2M deal · watch the questionnaire
-            move through 8 stages in real time
+            {client.questionnaire} · {client.totalQuestions} questions ·{" "}
+            {client.dealValue} deal · watch the questionnaire move through 8
+            stages in real time
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Client selector */}
+          <div className="relative">
+            <select
+              value={clientId}
+              onChange={(e) => switchClient(e.target.value)}
+              className="appearance-none rounded-lg border border-slate-700 bg-slate-800/60 py-1.5 pl-3 pr-8 text-xs font-medium text-slate-200 transition hover:border-slate-600 hover:bg-slate-800 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500/50"
+            >
+              {clients.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="pointer-events-none absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
+          </div>
+
+          {/* Compare toggle */}
+          <button
+            type="button"
+            onClick={toggleCompare}
+            className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition ${
+              comparing
+                ? "border-purple-500/60 bg-purple-500/15 text-purple-300 hover:bg-purple-500/25"
+                : "border-slate-700 bg-slate-800/60 text-slate-300 hover:border-slate-600 hover:bg-slate-800 hover:text-white"
+            }`}
+          >
+            <Columns2 className="h-3.5 w-3.5" strokeWidth={2} />
+            Compare
+          </button>
+
+          {/* Second client selector (compare mode) */}
+          {comparing && (
+            <div className="relative">
+              <select
+                value={compareId}
+                onChange={(e) => setCompareId(e.target.value)}
+                className="appearance-none rounded-lg border border-purple-500/40 bg-purple-500/10 py-1.5 pl-3 pr-8 text-xs font-medium text-purple-200 transition hover:border-purple-500/60 focus:border-purple-400 focus:outline-none focus:ring-1 focus:ring-purple-500/50"
+              >
+                {clients
+                  .filter((c) => c.id !== clientId)
+                  .map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-purple-300" />
+            </div>
+          )}
+
           <button
             type="button"
             onClick={togglePlay}
@@ -159,9 +242,10 @@ export default function PipelineDemo({ onStageChange }) {
       {/* Animated flow */}
       <div className="mt-5">
         <FlowDiagram
-          stages={pipelineStages}
+          stages={stages}
           activeIdx={activeIdx}
           visited={visited}
+          packetLabel={client.shortName}
           onSelect={(idx) => {
             setPlaying(false);
             visit(idx);
@@ -193,8 +277,17 @@ export default function PipelineDemo({ onStageChange }) {
         </div>
       </div>
 
-      {/* Compact inspector — stat tiles, no paragraphs */}
-      <Inspector stage={activeStage} />
+      {/* Inspector */}
+      {comparing ? (
+        <CompareInspector
+          stageA={activeStage}
+          stageB={compareActiveStage}
+          clientA={client}
+          clientB={compareClient}
+        />
+      ) : (
+        <Inspector stage={activeStage} />
+      )}
     </section>
   );
 }
@@ -203,7 +296,7 @@ export default function PipelineDemo({ onStageChange }) {
 /* FlowDiagram — 8 nodes + animated packet                                    */
 /* -------------------------------------------------------------------------- */
 
-function FlowDiagram({ stages, activeIdx, visited, onSelect }) {
+function FlowDiagram({ stages, activeIdx, visited, packetLabel, onSelect }) {
   return (
     <div className="relative flex w-full items-stretch">
       {stages.map((stage, idx) => {
@@ -213,17 +306,12 @@ function FlowDiagram({ stages, activeIdx, visited, onSelect }) {
         const isLast = idx === stages.length - 1;
 
         return (
-          <div
-            key={stage.id}
-            className="flex min-w-0 flex-1 items-start"
-          >
+          <div key={stage.id} className="flex min-w-0 flex-1 items-start">
             <button
               type="button"
               onClick={() => onSelect(idx)}
               className="group relative flex min-w-0 flex-1 flex-col items-center gap-1.5 rounded-lg p-1 text-center transition hover:bg-slate-800/40"
             >
-              {/* Animated packet — only renders inside the active node, framer-motion
-                  shared layout slides it from old position to new */}
               {isActive && (
                 <motion.div
                   layoutId="packet"
@@ -232,17 +320,14 @@ function FlowDiagram({ stages, activeIdx, visited, onSelect }) {
                 >
                   <div className="flex items-center gap-1 rounded-full border border-blue-400/60 bg-blue-500/90 px-1.5 py-0.5 font-mono text-[8px] font-bold uppercase tracking-wide text-white shadow-[0_0_12px_rgba(59,130,246,0.6)]">
                     <span className="h-1 w-1 rounded-full bg-white" />
-                    L&amp;W
+                    {packetLabel}
                   </div>
                 </motion.div>
               )}
 
-              {/* Node circle */}
               <div className="relative">
                 <motion.div
-                  animate={{
-                    scale: isActive ? 1.1 : 1,
-                  }}
+                  animate={{ scale: isActive ? 1.1 : 1 }}
                   transition={{ type: "spring", stiffness: 260, damping: 20 }}
                   className={`flex h-12 w-12 items-center justify-center rounded-full transition-colors ${
                     isActive
@@ -271,7 +356,6 @@ function FlowDiagram({ stages, activeIdx, visited, onSelect }) {
                 </span>
               </div>
 
-              {/* Big animated stat below the node */}
               <div className="mt-1.5 flex h-10 flex-col items-center justify-center">
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -300,7 +384,6 @@ function FlowDiagram({ stages, activeIdx, visited, onSelect }) {
                 </div>
               </div>
 
-              {/* Stage title */}
               <h3
                 className={`px-1 text-[10px] font-semibold uppercase leading-tight tracking-wide ${
                   isActive
@@ -359,7 +442,7 @@ function Connector({ visited }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Inspector — compact stat tiles, no paragraphs                               */
+/* Inspector — single client view                                              */
 /* -------------------------------------------------------------------------- */
 
 function Inspector({ stage }) {
@@ -374,7 +457,6 @@ function Inspector({ stage }) {
         transition={{ duration: 0.3, ease: "easeOut" }}
         className="mt-4 grid grid-cols-1 gap-3 rounded-xl border border-slate-800/80 bg-slate-900/40 p-4 lg:grid-cols-12"
       >
-        {/* Left — stage identity (icon + title + tagline) */}
         <div className="flex items-start gap-2.5 lg:col-span-4 lg:border-r lg:border-slate-800 lg:pr-4">
           <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-blue-500/15 text-blue-300 ring-1 ring-inset ring-blue-500/30">
             <Icon className="h-5 w-5" strokeWidth={2.5} />
@@ -402,7 +484,6 @@ function Inspector({ stage }) {
           </div>
         </div>
 
-        {/* Middle — stat tiles built from sample payload */}
         <div className="lg:col-span-5 lg:border-r lg:border-slate-800 lg:pr-4">
           <div className="font-mono text-[9px] uppercase tracking-wide text-[var(--color-muted-text)]">
             What this stage produced
@@ -414,7 +495,6 @@ function Inspector({ stage }) {
           </div>
         </div>
 
-        {/* Right — behind-the-scenes one-liner in mono */}
         <div className="lg:col-span-3">
           <div className="font-mono text-[9px] uppercase tracking-wide text-[var(--color-muted-text)]">
             Behind the scenes
@@ -435,8 +515,111 @@ function Inspector({ stage }) {
   );
 }
 
+/* -------------------------------------------------------------------------- */
+/* CompareInspector — side-by-side view of two clients                         */
+/* -------------------------------------------------------------------------- */
+
+function CompareInspector({ stageA, stageB, clientA, clientB }) {
+  const Icon = ICON_MAP[stageA.icon] ?? Inbox;
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={`compare-${stageA.id}`}
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -8 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="mt-4 rounded-xl border border-slate-800/80 bg-slate-900/40 p-4"
+      >
+        {/* Stage identity row */}
+        <div className="mb-3 flex items-center gap-2 border-b border-slate-800 pb-3">
+          <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-blue-500/15 text-blue-300 ring-1 ring-inset ring-blue-500/30">
+            <Icon className="h-4 w-4" strokeWidth={2.5} />
+          </div>
+          <div>
+            <div className="font-mono text-[9px] uppercase tracking-wide text-[var(--color-muted-text)]">
+              Stage {String(stageA.number).padStart(2, "0")} of 08
+            </div>
+            <h3 className="font-serif text-sm font-semibold text-white">
+              {stageA.title}
+            </h3>
+          </div>
+          {stageA.description && (
+            <p className="ml-auto text-[11px] leading-snug text-slate-400">
+              {stageA.description}
+            </p>
+          )}
+        </div>
+
+        {/* Side-by-side panels */}
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          <ComparePanel
+            stage={stageA}
+            client={clientA}
+            accent="blue"
+          />
+          <ComparePanel
+            stage={stageB}
+            client={clientB}
+            accent="purple"
+          />
+        </div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
+function ComparePanel({ stage, client, accent }) {
+  const colors = {
+    blue: {
+      badge: "bg-blue-500/15 text-blue-300 ring-blue-500/30",
+      border: "border-blue-500/30",
+      label: "text-blue-300",
+    },
+    purple: {
+      badge: "bg-purple-500/15 text-purple-300 ring-purple-500/30",
+      border: "border-purple-500/30",
+      label: "text-purple-300",
+    },
+  }[accent];
+
+  return (
+    <div className={`rounded-lg border ${colors.border} bg-slate-950/40 p-3`}>
+      {/* Client label */}
+      <div className="mb-2 flex items-center justify-between">
+        <span
+          className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ring-1 ring-inset ${colors.badge}`}
+        >
+          {client.shortName}
+        </span>
+        <span className="text-[10px] text-[var(--color-muted-text)]">
+          {client.questionnaire} · {client.dealValue}
+        </span>
+      </div>
+
+      {/* Tagline */}
+      <p className={`text-[11px] font-medium leading-snug ${colors.label}`}>
+        {stage.tagline}
+      </p>
+
+      {/* Trust score if present */}
+      {stage.trustInputs && (
+        <div className="mt-2">
+          <TrustScoreBadge inputs={stage.trustInputs} />
+        </div>
+      )}
+
+      {/* Stat tiles */}
+      <div className="mt-2 grid grid-cols-2 gap-1.5">
+        {stage.sample.slice(0, 4).map((row) => (
+          <StatTile key={row.label} label={row.label} value={row.value} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function StatTile({ label, value }) {
-  // Truncate very long string values so the tile stays compact
   const display = value.length > 38 ? value.slice(0, 36) + "…" : value;
   return (
     <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-2">

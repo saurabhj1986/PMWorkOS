@@ -4,16 +4,12 @@ import QuestionnaireTable from "./QuestionnaireTable";
 import ControlGrid from "./ControlGrid";
 import PipelineDemo from "./PipelineDemo";
 
-// Pipeline stage 4 (idx 3) maps question to CC-05 Cryptography & Key Mgmt.
-// From that stage onward, highlight the control in the grid.
-const STAGE_CONTROL_MAP = { 3: "CC-05", 4: "CC-05", 5: "CC-05", 6: "CC-05", 7: "CC-05" };
-
 export default function Dashboard() {
-  const [activeStageIdx, setActiveStageIdx] = useState(0);
+  const [highlightControlId, setHighlightControlId] = useState(null);
 
-  const handleStageChange = useCallback((idx) => setActiveStageIdx(idx), []);
-
-  const highlightControlId = STAGE_CONTROL_MAP[activeStageIdx] ?? null;
+  const handleStageChange = useCallback((idx, controlId) => {
+    setHighlightControlId(controlId ?? null);
+  }, []);
 
   return (
     <div className="space-y-4">
