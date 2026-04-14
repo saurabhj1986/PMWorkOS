@@ -6,6 +6,7 @@ import PipelineDemo from "./PipelineDemo";
 
 export default function Dashboard() {
   const [highlightControlId, setHighlightControlId] = useState(null);
+  const [clientId, setClientId] = useState("latham");
 
   const handleStageChange = useCallback((idx, controlId) => {
     setHighlightControlId(controlId ?? null);
@@ -23,8 +24,12 @@ export default function Dashboard() {
           <span className="font-mono text-blue-300">i</span> for context.
         </p>
       </div>
-      <PipelineDemo onStageChange={handleStageChange} />
-      <KpiCards />
+      <PipelineDemo
+        onStageChange={handleStageChange}
+        clientId={clientId}
+        onClientChange={setClientId}
+      />
+      <KpiCards clientId={clientId} />
       <QuestionnaireTable />
       <ControlGrid highlightId={highlightControlId} />
     </div>

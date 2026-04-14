@@ -1,11 +1,22 @@
+import { useMemo } from "react";
 import { kpis } from "../../data/kpis";
+import { clients } from "../../data/clients";
 import Tooltip from "../../components/Tooltip";
 
-export default function KpiCards() {
+export default function KpiCards({ clientId }) {
+  const mergedKpis = useMemo(() => {
+    const client = clients.find((c) => c.id === clientId);
+    const overrides = client?.kpiOverrides ?? {};
+    return kpis.map((kpi) => ({
+      ...kpi,
+      ...(overrides[kpi.label] ?? {}),
+    }));
+  }, [clientId]);
+
   return (
     <section>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-        {kpis.map((kpi) => (
+        {mergedKpis.map((kpi) => (
           <div
             key={kpi.label}
             className="rounded-xl border border-slate-800/80 bg-[var(--color-card-bg)] p-4 shadow-[var(--shadow-card)] transition hover:border-slate-700 hover:shadow-[var(--shadow-card-hover)]"

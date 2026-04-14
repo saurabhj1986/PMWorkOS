@@ -40,11 +40,10 @@ function mergeStages(clientId) {
   }));
 }
 
-export default function PipelineDemo({ onStageChange }) {
+export default function PipelineDemo({ onStageChange, clientId, onClientChange }) {
   const [activeIdx, setActiveIdx] = useState(0);
   const [visited, setVisited] = useState(() => new Set([0]));
   const [playing, setPlaying] = useState(true);
-  const [clientId, setClientId] = useState("latham");
   const [comparing, setComparing] = useState(false);
   const [compareId, setCompareId] = useState("goldman");
   const intervalRef = useRef(null);
@@ -115,7 +114,7 @@ export default function PipelineDemo({ onStageChange }) {
 
   const switchClient = useCallback(
     (id) => {
-      setClientId(id);
+      onClientChange(id);
       setPlaying(false);
       setActiveIdx(0);
       setVisited(new Set([0]));
@@ -125,7 +124,7 @@ export default function PipelineDemo({ onStageChange }) {
         if (alt) setCompareId(alt.id);
       }
     },
-    [compareId],
+    [compareId, onClientChange],
   );
 
   const toggleCompare = () => {

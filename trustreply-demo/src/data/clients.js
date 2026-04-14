@@ -11,6 +11,10 @@ export const clients = [
     totalQuestions: 261,
     dealValue: "$4.2M ARR",
     mappedControl: "CC-05",
+    kpiOverrides: {
+      "Reuse Rate": { value: "84%", subtitle: "target: ≥ 80%" },
+      "Avg Response Time": { value: "1.4 days", subtitle: "target: < 2 business days" },
+    },
     stages: {
       ingest: {
         tagline: "Latham & Watkins · CAIQ v4 · 261 questions",
@@ -107,6 +111,10 @@ export const clients = [
     totalQuestions: 180,
     dealValue: "$2.8M ARR",
     mappedControl: "CC-01",
+    kpiOverrides: {
+      "Reuse Rate": { value: "93%", subtitle: "+9pp from L&W baseline" },
+      "Avg Response Time": { value: "0.9 days", subtitle: "36% faster than L&W" },
+    },
     stages: {
       ingest: {
         tagline: "Goldman Sachs · SIG Lite · 180 questions",
@@ -203,6 +211,10 @@ export const clients = [
     totalQuestions: 147,
     dealValue: "$3.1M ARR",
     mappedControl: "CC-15",
+    kpiOverrides: {
+      "Reuse Rate": { value: "96%", subtitle: "+12pp from L&W baseline" },
+      "Avg Response Time": { value: "0.6 days", subtitle: "57% faster than L&W" },
+    },
     stages: {
       ingest: {
         tagline: "Allen & Overy · ISO 27001 Custom · 147 questions",
