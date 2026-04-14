@@ -33,6 +33,11 @@ const DECISIONS = [
     detail: "Stage 8 outputs become Stage 5 inputs. Every approved answer makes the next questionnaire faster. This is the business model — the 84% reuse rate climbs every quarter without hiring.",
     Icon: BarChart3,
   },
+  {
+    title: "Due diligence scope, not real-time monitoring",
+    detail: "This pipeline handles customer due diligence (pre-sales questionnaires) — point-in-time attestation, not continuous monitoring. Evidence references third-party reports (SOC 2 Type II, ISO certs) alongside internal configs. A separate due care workflow would handle post-acquisition audits.",
+    Icon: Layers,
+  },
 ];
 
 const DISCOVERY_QUESTIONS = [
@@ -42,11 +47,12 @@ const DISCOVERY_QUESTIONS = [
   "Which CRM feeds deal data — Salesforce? HubSpot? How stale is the deal-to-questionnaire link?",
   "How many analysts are on the team today, and how do you measure analyst velocity?",
   "What's the current handoff from security review to legal review? Is there a gate?",
+  "Where's the risk tolerance line — should customers see real-time posture or point-in-time reports?",
 ];
 
 const GAPS = [
   { label: "No real Snowflake connection", note: "All data is mock. The schema is designed for Snowflake but nothing queries it." },
-  { label: "Single-customer demo path", note: "Pipeline only traces Latham & Watkins end-to-end. A real product needs to show multiple concurrent questionnaires." },
+  { label: "Due diligence only", note: "Pipeline covers pre-sales questionnaires. A full platform needs a separate due care workflow for post-acquisition audits and continuous monitoring." },
   { label: "No auth or RBAC", note: "A trust platform needs role-based access (analyst vs. engineer vs. CISO). This demo has none." },
   { label: "Evidence collection is simulated", note: "The Evidence Collector agent has no real integrations (Anecdotes, CrowdStrike, Okta). It's a mock dispatch." },
 ];

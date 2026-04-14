@@ -107,11 +107,11 @@ export const pipelineStages = [
     id: "retrieve",
     number: 5,
     title: "Retrieve",
-    description: "Pull current, non-expired evidence artifacts for the matched control family.",
+    description: "Pull current evidence — attested reports (SOC 2, ISO 27001), configs, and audit logs for the matched control.",
     tagline: "3 current artifacts · all valid",
     icon: "Database",
     headlineStat: { value: "3", label: "artifacts" },
-    what: "Pull every current, non-expired evidence artifact attached to CC-05.",
+    what: "Pull every current, non-expired evidence artifact attached to CC-05 — including third-party attested reports (SOC 2 Type II, ISO 27001 certificates) and internal configuration evidence.",
     behind:
       "SELECT * FROM evidence_submissions WHERE control_id='CC-05' AND status='current' AND expires_date > CURRENT_DATE",
     sample: [

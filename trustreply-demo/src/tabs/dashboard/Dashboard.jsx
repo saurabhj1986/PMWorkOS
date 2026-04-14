@@ -18,7 +18,7 @@ export default function Dashboard() {
           Trust Dashboard
         </h1>
         <p className="mt-0.5 text-xs text-[var(--color-muted-text)]">
-          Real-time view of audit readiness, customer questionnaires, and control health.
+          Customer due diligence workflow — from inbound questionnaire to approved response.
           Hover any{" "}
           <span className="font-mono text-blue-300">i</span> for context.
         </p>
