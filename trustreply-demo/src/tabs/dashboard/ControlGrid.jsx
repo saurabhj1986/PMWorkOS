@@ -24,7 +24,7 @@ export default function ControlGrid({ highlightId }) {
           <h2 className="font-serif text-sm font-semibold text-[var(--color-dark-text)]">
             Common Control Framework
           </h2>
-          <Tooltip text="Harvey's Common Control Framework (CCF) — 16 control families derived from Josh's Trust Strategy Slide 7. 'Test once, audit many' — every framework Harvey holds maps back to these controls." />
+          <Tooltip text="Common Control Framework (CCF) — 16 control families. 'Test once, audit many' — every compliance framework maps back to these controls." />
         </div>
         <span className="text-[11px] text-[var(--color-muted-text)]">
           {active}/{total} controls active

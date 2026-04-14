@@ -1,6 +1,6 @@
 // End-to-end data architecture for the TrustReply platform.
 // 5 layers: Source → Ingest → Store → Intelligence → Deliver
-// Maps directly to Josh McKibben's "Buy GRC / Build Intelligence" framing.
+// Maps to the "Buy GRC / Build Intelligence" framing.
 
 export const architectureLayers = [
   {
@@ -18,7 +18,7 @@ export const architectureLayers = [
         icon: "Shield",
         type: "Primary GRC platform",
         description:
-          "Control inventory, evidence lifecycle, audit workflows, and policy management. Josh's Buy layer for compliance operations.",
+          "Control inventory, evidence lifecycle, audit workflows, and policy management. The Buy layer for compliance operations.",
         dataFlows: ["Control inventory", "Evidence artifacts", "Audit findings"],
       },
       {
@@ -131,7 +131,7 @@ export const architectureLayers = [
     color: "emerald",
     boundary: "build",
     description:
-      "Three-schema architecture: RAW (land) → CURATED (clean) → ANALYTICS (aggregate). The compliance data lake Josh described.",
+      "Three-schema architecture: RAW (land) → CURATED (clean) → ANALYTICS (aggregate). The compliance data lake for trust intelligence.",
     components: [
       {
         name: "RAW Schema",

@@ -8,7 +8,7 @@ export const agentSamples = [
     customer: "Latham & Watkins",
     questionnaireType: "CAIQ v4",
     question:
-      "How does Harvey encrypt customer data at rest and in transit?",
+      "How does Acme Corp encrypt customer data at rest and in transit?",
     classify: {
       category: "Data Protection",
       subTopic: "Encryption",
@@ -29,7 +29,7 @@ export const agentSamples = [
     ],
     draft: {
       answer:
-        "Harvey encrypts all customer data at rest using AES-256 via Azure SQL and Cosmos DB. Data in transit is protected using TLS 1.2 or higher on all public endpoints, enforced at the Cloudflare edge. Encryption keys are managed through Azure Key Vault with annual rotation, and access is logged for SOC 2 audit purposes.",
+        "Acme Corp encrypts all customer data at rest using AES-256 via Azure SQL and Cosmos DB. Data in transit is protected using TLS 1.2 or higher on all public endpoints, enforced at the Cloudflare edge. Encryption keys are managed through Azure Key Vault with annual rotation, and access is logged for SOC 2 audit purposes.",
       confidence: 0.96,
       reuseMatch: 0.89,
       reuseSource: "Allen & Overy CAIQ Q-127 (2026-03-12)",
@@ -62,7 +62,7 @@ export const agentSamples = [
     ],
     draft: {
       answer:
-        "Harvey supports data residency in US, EU (Ireland), and UK regions. Customer data is provisioned to a specific region at onboarding and never crosses region boundaries except for opt-in features (e.g., shared model training, which can be disabled). The architecture diagram (EVD-010) was updated yesterday — drift detection has flagged this answer for analyst re-review.",
+        "Acme Corp supports data residency in US, EU (Ireland), and UK regions. Customer data is provisioned to a specific region at onboarding and never crosses region boundaries except for opt-in features (e.g., shared model training, which can be disabled). The architecture diagram (EVD-010) was updated yesterday — drift detection has flagged this answer for analyst re-review.",
       confidence: 0.71,
       reuseMatch: 0.62,
       reuseSource: "Bridgewater CAIQ Q-191 (2026-02-04)",
@@ -96,7 +96,7 @@ export const agentSamples = [
     ],
     draft: {
       answer:
-        "Harvey runs a 24/7 incident response process with PagerDuty primary on-call and a dedicated security engineer. Detection SLA: 15 min for critical, 1h for high. Customer notification SLA: 24h for confirmed material incidents per the MSA. Tabletop exercises are run quarterly; the most recent (Dec 2025) report is attached as supporting evidence.",
+        "Acme Corp runs a 24/7 incident response process with PagerDuty primary on-call and a dedicated security engineer. Detection SLA: 15 min for critical, 1h for high. Customer notification SLA: 24h for confirmed material incidents per the MSA. Tabletop exercises are run quarterly; the most recent (Dec 2025) report is attached as supporting evidence.",
       confidence: 0.94,
       reuseMatch: 0.81,
       reuseSource: "HSBC Custom Q-22 (2026-02-19)",
@@ -129,7 +129,7 @@ export const agentSamples = [
     ],
     draft: {
       answer:
-        "Harvey uses Microsoft Purview for sensitivity labeling and DLP enforcement across SharePoint, OneDrive, and Exchange. Customer documents are auto-labeled at ingest based on content classification. Egress is blocked for documents marked Confidential or above without an audit-logged override.",
+        "Acme Corp uses Microsoft Purview for sensitivity labeling and DLP enforcement across SharePoint, OneDrive, and Exchange. Customer documents are auto-labeled at ingest based on content classification. Egress is blocked for documents marked Confidential or above without an audit-logged override.",
       confidence: 0.92,
       reuseMatch: 0.78,
       reuseSource: "Bridgewater CAIQ Q-210 (2026-01-18)",
@@ -142,7 +142,7 @@ export const agentSamples = [
     customer: "Latham & Watkins",
     questionnaireType: "CAIQ v4",
     question:
-      "Does Harvey use customer data to train its underlying foundation models?",
+      "Does Acme Corp use customer data to train its underlying foundation models?",
     classify: {
       category: "AI Governance",
       subTopic: "Training Data",
@@ -162,7 +162,7 @@ export const agentSamples = [
     ],
     draft: {
       answer:
-        "No. Harvey does not use customer prompts, documents, or any customer-derived data to train its underlying foundation models. This is contractually guaranteed in every customer DPA (clause 4.2). Model training uses only Harvey-licensed corpora and synthetic data. Lineage of all training data is documented in the model training data lineage report (EVD-019).",
+        "No. Acme Corp does not use customer prompts, documents, or any customer-derived data to train its underlying foundation models. This is contractually guaranteed in every customer DPA (clause 4.2). Model training uses only Acme Corp-licensed corpora and synthetic data. Lineage of all training data is documented in the model training data lineage report (EVD-019).",
       confidence: 0.98,
       reuseMatch: 0.94,
       reuseSource: "Allen & Overy CAIQ Q-258 (2026-03-12)",

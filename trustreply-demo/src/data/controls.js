@@ -1,4 +1,4 @@
-// Common Control Framework — 16 control families from Josh's CCF (Slide 7)
+// Common Control Framework — 16 control families
 // Source: TrustReply context doc, Tab 1 — Control Health Grid
 export const controls = [
   {

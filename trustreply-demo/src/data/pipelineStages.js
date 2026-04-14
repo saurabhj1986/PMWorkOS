@@ -11,7 +11,7 @@
 //   what        — "What happens here" plain English
 //   behind      — "Behind the scenes" technical detail
 //   sample      — array of {label, value} key/value pairs (shown as a code block)
-//   why         — "Why this matters" with cite back to Josh's slides where relevant
+//   why         — "Why this matters" with cite to trust strategy where relevant
 //   hoverPreview— compact one-liner shown on hover (no click required)
 
 export const pipelineStages = [
@@ -23,7 +23,7 @@ export const pipelineStages = [
     tagline: "Latham & Watkins · CAIQ v4 · 261 questions",
     icon: "Inbox",
     headlineStat: { value: "261", label: "questions" },
-    what: "Latham & Watkins' security team uploads their CAIQ v4 file. It's tied to a $4.2M enterprise deal currently sitting in security review — every day stalled is revenue at risk.",
+    what: "The customer's security team uploads their CAIQ v4 file. It's tied to a $4.2M enterprise deal currently sitting in security review — every day stalled is revenue at risk.",
     behind:
       "INSERT INTO trust_intelligence.questionnaire_responses (status='pending'). Notify the assigned analyst via Slack + dashboard.",
     sample: [
@@ -34,7 +34,7 @@ export const pipelineStages = [
       { label: "due_date", value: "2026-04-10" },
       { label: "deal_value", value: "$4.2M ARR" },
     ],
-    why: "Each questionnaire is tied to an enterprise deal. Source: Josh's Trust Strategy Slide 9 — Customer Trust = highest direct revenue impact.",
+    why: "Each questionnaire is tied to an enterprise deal. Customer Trust = highest direct revenue impact.",
     hoverPreview: "Latham & Watkins · CAIQ v4 · 261 Q's · $4.2M ARR",
   },
   {
@@ -55,7 +55,7 @@ export const pipelineStages = [
       { label: "unique_questions", value: "247" },
       { label: "parse_time", value: "1.4s" },
     ],
-    why: "Manual parsing was the #1 time sink Josh's email called out. Auto-parsing recovers ~2 hours per questionnaire before the agent even starts work.",
+    why: "Manual parsing is the #1 time sink for trust teams. Auto-parsing recovers ~2 hours per questionnaire before the agent even starts work.",
     hoverPreview: "247 unique · 14 dupes flagged · 1.4s",
   },
   {
@@ -74,24 +74,24 @@ export const pipelineStages = [
       {
         label: "question_text",
         value:
-          '"How does Harvey encrypt customer data at rest and in transit?"',
+          '"How does Acme Corp encrypt customer data at rest and in transit?"',
       },
       { label: "category", value: "Data Protection" },
       { label: "sub_topic", value: "Encryption" },
       { label: "intent", value: "factual_lookup" },
     ],
     why: "No classification = the agent has to brute-force every control family for every question. Classification turns it into a targeted lookup.",
-    hoverPreview: 'Q-47 "How does Harvey encrypt..." → Encryption',
+    hoverPreview: 'Q-47 "How does Acme Corp encrypt..." → Encryption',
   },
   {
     id: "map",
     number: 4,
     title: "Map",
-    description: "Match to Harvey's Common Control Framework — one answer can satisfy multiple audits.",
+    description: "Match to the Common Control Framework — one answer can satisfy multiple audits.",
     tagline: "Matched to CC-05 · 0.98 confidence",
     icon: "GitBranch",
     headlineStat: { value: "CC-05", label: "control" },
-    what: "Q-47's classification is matched against Harvey's 16-family Common Control Framework.",
+    what: "Q-47's classification is matched against the 16-family Common Control Framework.",
     behind:
       "JOIN control_inventory ON category → control_family. Returns one or more matching controls ranked by overlap score.",
     sample: [
@@ -100,7 +100,7 @@ export const pipelineStages = [
       { label: "match_confidence", value: "0.98" },
       { label: "alternates_considered", value: "CC-04, CC-10" },
     ],
-    why: "\"Test once, audit many\" — Josh's Slide 7. One CC-05 answer satisfies SOC 2, ISO 27001, AND PCI DSS simultaneously. Three audits, one piece of work.",
+    why: "\"Test once, audit many\" — one CC-05 answer satisfies SOC 2, ISO 27001, AND PCI DSS simultaneously. Three audits, one piece of work.",
     hoverPreview: "CC-05 Cryptography → SOC 2 + ISO 27001 + PCI DSS",
   },
   {
@@ -134,12 +134,12 @@ export const pipelineStages = [
     headlineStat: { value: "0.96", label: "trust" },
     what: "Compose a customer-facing answer grounded in the 3 evidence artifacts. Score the draft for faithfulness so we don't ship hallucinations.",
     behind:
-      "Prompt template wraps {question + evidence + Harvey tone guide} → LLM draft → faithfulness check (every claim must trace back to a cited artifact).",
+      "Prompt template wraps {question + evidence + company tone guide} → LLM draft → faithfulness check (every claim must trace back to a cited artifact).",
     sample: [
       {
         label: "draft",
         value:
-          '"Harvey encrypts all customer data at rest using AES-256 via Azure SQL and Cosmos DB. Data in transit is protected using TLS 1.2 or higher on all public endpoints, enforced at the Cloudflare edge. Encryption keys are managed through Azure Key Vault with annual rotation..."',
+          '"Acme Corp encrypts all customer data at rest using AES-256 via Azure SQL and Cosmos DB. Data in transit is protected using TLS 1.2 or higher on all public endpoints, enforced at the Cloudflare edge. Encryption keys are managed through Azure Key Vault with annual rotation..."',
       },
       { label: "confidence", value: "0.96" },
       { label: "reuse_match", value: "89%" },
@@ -174,7 +174,7 @@ export const pipelineStages = [
       { label: "decision", value: "approved" },
       { label: "changes_made", value: "none" },
     ],
-    why: "Josh's Slide 10 — humans handle judgment. The agent doesn't replace Maya, it gives her 10x leverage. She reviews 248 answers in the time it used to take to write 25.",
+    why: "Humans handle judgment. The agent doesn't replace Maya, it gives her 10x leverage. She reviews 248 answers in the time it used to take to write 25.",
     hoverPreview: "Auto-approve queue · approved in 12s",
   },
   {
@@ -195,7 +195,7 @@ export const pipelineStages = [
       { label: "library_growth", value: "+1 reusable answer" },
       { label: "deal_status", value: "Security review unblocked → Legal review" },
     ],
-    why: "The flywheel. Every approved answer makes the next questionnaire faster. This is how Reuse Rate climbs from 84% toward Josh's ≥80% target — and keeps going past it.",
+    why: "The flywheel. Every approved answer makes the next questionnaire faster. This is how Reuse Rate climbs from 84% toward the ≥80% target — and keeps going past it.",
     hoverPreview: "Delivered · library +1 · deal unblocked",
   },
 ];

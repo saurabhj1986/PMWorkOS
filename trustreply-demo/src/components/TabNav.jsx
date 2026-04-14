@@ -31,12 +31,12 @@ export default function TabNav({ active, onChange }) {
                 TrustReply
               </h1>
               <p className="text-xs text-slate-400">
-                Harvey Trust Intelligence Platform
+                Trust Intelligence Platform
               </p>
             </div>
           </div>
           <div className="hidden text-right text-xs text-slate-400 sm:block">
-            <div>Demo build for Josh McKibben, Head of Trust</div>
+            <div>Interactive Portfolio Demo</div>
             <div>by Saurabh Jhaveri · Data Product Management</div>
           </div>
         </div>

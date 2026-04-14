@@ -1,4 +1,4 @@
-// Customer Questionnaire Tracker — real Harvey customer names
+// Customer Questionnaire Tracker — sample enterprise customer names
 // Source: TrustReply context doc, Tab 1 — Questionnaire Tracker
 export const questionnaires = [
   {

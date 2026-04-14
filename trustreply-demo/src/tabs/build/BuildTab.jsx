@@ -20,12 +20,12 @@ const DECISIONS = [
   },
   {
     title: "8-stage pipeline, not a chatbot",
-    detail: "Questionnaires are batch workflows, not conversations. The pipeline model maps directly to how Josh's team actually works — inbound, parse, classify, map, retrieve, draft, review, deliver.",
+    detail: "Questionnaires are batch workflows, not conversations. The pipeline model maps directly to how trust teams actually work — inbound, parse, classify, map, retrieve, draft, review, deliver.",
     Icon: GitBranch,
   },
   {
     title: "Agent roster with specialization",
-    detail: "6 agents with distinct jobs (draft, collect evidence, detect drift, remediate, triage, notify) instead of one monolithic agent. Matches Josh's org chart and makes trust scoring per-agent possible.",
+    detail: "6 agents with distinct jobs (draft, collect evidence, detect drift, remediate, triage, notify) instead of one monolithic agent. Mirrors team structure and makes trust scoring per-agent possible.",
     Icon: Cpu,
   },
   {
@@ -35,7 +35,7 @@ const DECISIONS = [
   },
 ];
 
-const QUESTIONS_FOR_JOSH = [
+const DISCOVERY_QUESTIONS = [
   "What's your evidence currency SLA today — 90 days? 365? Varies by control family?",
   "How do you handle multi-part questions where one control maps to several sub-questions?",
   "Is there an existing approved_answers library, or is everyone copy-pasting from old responses?",
@@ -60,7 +60,7 @@ const WHATS_NEXT = [
 ];
 
 /**
- * BuildTab — the meta-tab. Product thinking: decisions made, questions for Josh,
+ * BuildTab — the meta-tab. Product thinking: decisions made, discovery questions,
  * honest gaps, what's next. Compact card layout, minimal prose.
  */
 export default function BuildTab() {
@@ -78,7 +78,7 @@ export default function BuildTab() {
           </span>
         </div>
         <p className="mt-1 text-xs text-[var(--color-muted-text)]">
-          Design decisions, questions for Josh, honest gaps, and what comes next
+          Design decisions, discovery questions, honest gaps, and what comes next
         </p>
       </div>
 
@@ -110,10 +110,10 @@ export default function BuildTab() {
           </div>
         </Section>
 
-        {/* Questions for Josh */}
-        <Section title="Questions for Josh" Icon={HelpCircle} color="blue">
+        {/* Discovery Questions */}
+        <Section title="Discovery questions" Icon={HelpCircle} color="blue">
           <ul className="space-y-1.5">
-            {QUESTIONS_FOR_JOSH.map((q, i) => (
+            {DISCOVERY_QUESTIONS.map((q, i) => (
               <motion.li
                 key={i}
                 initial={{ opacity: 0, x: -8 }}

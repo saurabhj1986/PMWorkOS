@@ -49,7 +49,7 @@ export const dataModelTables = [
   {
     id: "control_inventory",
     name: "control_inventory",
-    description: "Harvey's 20-family Common Control Framework",
+    description: "20-family Common Control Framework",
     color: "emerald",
     columns: [
       { name: "control_id", type: "VARCHAR", pk: true },
@@ -104,8 +104,8 @@ export const dataModelTables = [
       { name: "times_reused", type: "INT" },
     ],
     rows: [
-      { answer_id: "ANS-127", question_text: "How does Harvey encrypt data at rest?", control_id: "CC-05", answer_text: "AES-256 via Azure SQL...", confidence: 0.96, approved_by: "Maya Chen", approved_at: "2026-03-12", times_reused: 7 },
-      { answer_id: "ANS-258", question_text: "Does Harvey use customer data to train models?", control_id: "CC-18", answer_text: "No. Contractually guaranteed in DPA...", confidence: 0.98, approved_by: "Maya Chen", approved_at: "2026-03-12", times_reused: 12 },
+      { answer_id: "ANS-127", question_text: "How does Acme Corp encrypt data at rest?", control_id: "CC-05", answer_text: "AES-256 via Azure SQL...", confidence: 0.96, approved_by: "Maya Chen", approved_at: "2026-03-12", times_reused: 7 },
+      { answer_id: "ANS-258", question_text: "Does Acme Corp use customer data to train models?", control_id: "CC-18", answer_text: "No. Contractually guaranteed in DPA...", confidence: 0.98, approved_by: "Maya Chen", approved_at: "2026-03-12", times_reused: 12 },
       { answer_id: "ANS-022", question_text: "Describe your IR process.", control_id: "CC-09", answer_text: "24/7 PagerDuty on-call...", confidence: 0.94, approved_by: "R. Patel", approved_at: "2026-02-19", times_reused: 5 },
     ],
     relations: ["control_inventory", "questionnaire_responses"],
@@ -169,7 +169,7 @@ export const dataModelTables = [
       { name: "timestamp", type: "TIMESTAMP" },
     ],
     rows: [
-      { log_id: 98412, actor: "maya.chen@harvey.ai", action: "approve_answer", entity_type: "answer", entity_id: "ANS-127", metadata: "{confidence: 0.96}", timestamp: "2026-04-12 09:15" },
+      { log_id: 98412, actor: "maya.chen@acmecorp.com", action: "approve_answer", entity_type: "answer", entity_id: "ANS-127", metadata: "{confidence: 0.96}", timestamp: "2026-04-12 09:15" },
       { log_id: 98413, actor: "evidence_collector", action: "refresh_evidence", entity_type: "evidence", entity_id: "EVD-008", metadata: "{status: 'in_progress'}", timestamp: "2026-04-12 09:22" },
       { log_id: 98414, actor: "drift_detection", action: "flag_drift", entity_type: "answer", entity_id: "Q-184", metadata: "{old: 0.92, new: 0.71}", timestamp: "2026-04-12 08:48" },
     ],

@@ -39,7 +39,7 @@ export const clients = [
         headlineStat: { value: "247", label: "tagged" },
         sample: [
           { label: "question_id", value: "Q-47" },
-          { label: "question_text", value: '"How does Harvey encrypt customer data at rest and in transit?"' },
+          { label: "question_text", value: '"How does Acme Corp encrypt customer data at rest and in transit?"' },
           { label: "category", value: "Data Protection" },
           { label: "sub_topic", value: "Encryption" },
         ],
@@ -70,7 +70,7 @@ export const clients = [
         tagline: "96% confidence · 89% reuse match",
         headlineStat: { value: "0.96", label: "trust" },
         sample: [
-          { label: "draft", value: '"Harvey encrypts all customer data at rest using AES-256 via Azure SQL and Cosmos DB..."' },
+          { label: "draft", value: '"Acme Corp encrypts all customer data at rest using AES-256 via Azure SQL and Cosmos DB..."' },
           { label: "confidence", value: "0.96" },
           { label: "reuse_match", value: "89%" },
           { label: "similar_answer", value: "Allen & Overy CAIQ Q-127 (2026-03-12)" },
@@ -135,7 +135,7 @@ export const clients = [
         headlineStat: { value: "149", label: "tagged" },
         sample: [
           { label: "question_id", value: "Q-12" },
-          { label: "question_text", value: '"How does Harvey manage access to production systems?"' },
+          { label: "question_text", value: '"How does Acme Corp manage access to production systems?"' },
           { label: "category", value: "Identity & Access" },
           { label: "sub_topic", value: "Access Control" },
         ],
@@ -166,7 +166,7 @@ export const clients = [
         tagline: "98% confidence · 93% reuse match",
         headlineStat: { value: "0.98", label: "trust" },
         sample: [
-          { label: "draft", value: '"Harvey enforces role-based access control (RBAC) across all production systems. Authentication is handled via Okta SSO with mandatory MFA..."' },
+          { label: "draft", value: '"Acme Corp enforces role-based access control (RBAC) across all production systems. Authentication is handled via Okta SSO with mandatory MFA..."' },
           { label: "confidence", value: "0.98" },
           { label: "reuse_match", value: "93%" },
           { label: "similar_answer", value: "Latham & Watkins CAIQ Q-201 (2026-04-08)" },
@@ -231,7 +231,7 @@ export const clients = [
         headlineStat: { value: "95", label: "tagged" },
         sample: [
           { label: "question_id", value: "Q-88" },
-          { label: "question_text", value: '"Describe Harvey\'s incident detection and response process."' },
+          { label: "question_text", value: '"Describe Acme Corp\'s incident detection and response process."' },
           { label: "category", value: "Security Ops" },
           { label: "sub_topic", value: "Incident Response" },
         ],
@@ -262,7 +262,7 @@ export const clients = [
         tagline: "97% confidence · 96% reuse match",
         headlineStat: { value: "0.97", label: "trust" },
         sample: [
-          { label: "draft", value: '"Harvey maintains a documented incident response plan with 4 severity tiers. Detection is powered by Datadog SIEM with PagerDuty escalation..."' },
+          { label: "draft", value: '"Acme Corp maintains a documented incident response plan with 4 severity tiers. Detection is powered by Datadog SIEM with PagerDuty escalation..."' },
           { label: "confidence", value: "0.97" },
           { label: "reuse_match", value: "96%" },
           { label: "similar_answer", value: "Goldman Sachs SIG Q-45 (2026-04-15)" },

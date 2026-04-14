@@ -3,7 +3,7 @@ import StatusPill from "../../components/StatusPill";
 import Tooltip from "../../components/Tooltip";
 
 const COLUMNS = [
-  { key: "customer", label: "Customer", tooltip: "Enterprise customer (or prospect) submitting the security questionnaire. Real Harvey customers used in this demo." },
+  { key: "customer", label: "Customer", tooltip: "Enterprise customer (or prospect) submitting the security questionnaire. Sample enterprise customers used in this demo." },
   { key: "type", label: "Type", tooltip: "Questionnaire format. CAIQ v4 = Cloud Security Alliance Consensus Assessment. SIG = Shared Assessments. Custom = customer-built." },
   { key: "total", label: "Total", tooltip: "Total questions in the questionnaire." },
   { key: "answered", label: "Answered", tooltip: "Questions answered so far. Fed by TrustReply Agent + analyst review." },
